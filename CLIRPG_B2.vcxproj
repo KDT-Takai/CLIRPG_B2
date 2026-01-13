@@ -131,7 +131,12 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="Program\System\GameManager\GameManager.cpp" />
     <ClCompile Include="Program\main.cpp" />
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="Program\System\GameManager\GameManager.hpp" />
+    <ClInclude Include="Program\System\Singleton\Singleton.hpp" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
