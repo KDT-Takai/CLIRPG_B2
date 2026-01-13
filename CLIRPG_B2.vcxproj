@@ -133,11 +133,11 @@
   <ItemGroup>
     <ClCompile Include="Program\System\GameManager\GameManager.cpp" />
     <ClCompile Include="Program\main.cpp" />
-    <ClCompile Include="Program\System\ScreenManager\ScreenManager.cpp" />
+    <ClCompile Include="Program\System\Screen\ScreenManager.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Program\System\GameManager\GameManager.hpp" />
-    <ClInclude Include="Program\System\ScreenManager\ScreenManager.hpp" />
+    <ClInclude Include="Program\System\Screen\ScreenManager.hpp" />
     <ClInclude Include="Program\System\Singleton\Singleton.hpp" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
