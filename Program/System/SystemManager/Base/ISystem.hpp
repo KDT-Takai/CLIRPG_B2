@@ -15,7 +15,7 @@ namespace System
 		/// <summary>
 		/// 状態更新
 		/// </summary>
-		virtual void Update(entt::registry Reg) {};
+		virtual void Update(entt::registry& Reg) {};
 	};
 
 	/// <summary>
@@ -36,11 +36,11 @@ namespace System
 		/// <summary>
 		/// 状態更新
 		/// </summary>
-		virtual void Update(entt::registry Reg)override;
+		virtual void Update(entt::registry& Reg)override;
 	};
 
 	template<typename ...Components>
-	inline void BaseSystem<Components...>::Update(entt::registry Reg)
+	inline void BaseSystem<Components...>::Update(entt::registry& Reg)
 	{
 		auto view = Reg.view<Components...>();
 		// Viewをイテレートして各エンティティを処理
