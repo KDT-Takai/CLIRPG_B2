@@ -23,6 +23,10 @@ namespace Graphics {
 		/// </summary>
 		void ClearText();
 		/// <summary>
+		/// コンソールのクリア
+		/// </summary>
+		void ClearConsole();
+		/// <summary>
 		/// 表示処理
 		/// </summary>
 		void Render();
