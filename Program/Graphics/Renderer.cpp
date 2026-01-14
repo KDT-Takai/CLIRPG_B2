@@ -25,13 +25,6 @@ void Graphics::Renderer::ClearText() {
 }
 
 /// <summary>
-/// コンソールのクリア
-/// </summary>
-void Graphics::Renderer::ClearConsole() {
-
-}
-
-/// <summary>
 /// 表示処理
 /// </summary>
 void Graphics::Renderer::Render() {
