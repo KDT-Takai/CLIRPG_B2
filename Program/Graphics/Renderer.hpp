@@ -11,9 +11,9 @@ namespace Graphics {
 		GENERATE_SINGLETON_BODY(Renderer)
 	public:
 		/// <summary>
-		/// 初期化処理
+		/// コンストラクタ
 		/// </summary>
-		void Initialize();
+		void OnCreate() override;
 		/// <summary>
 		/// 文字列の追加
 		/// </summary>

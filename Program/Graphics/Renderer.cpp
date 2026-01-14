@@ -2,9 +2,9 @@
 #include <iostream>
 
 /// <summary>
-/// 初期化処理
+/// コンストラクタ
 /// </summary>
-void Graphics::Renderer::Initialize() {
+void Graphics::Renderer::OnCreate() {
 	mIsDirty = false;
 }
 
