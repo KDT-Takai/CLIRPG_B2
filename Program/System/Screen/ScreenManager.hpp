@@ -6,7 +6,7 @@
 
 #include "System/Singleton/Singleton.hpp"
 
-class SceneManager;
+class Scene;
 
 class IScene
 {
@@ -16,23 +16,23 @@ public:
 	virtual ~IScene() = default;
 
 	// そのシーンに入った瞬間（タイトル画面表示、ステータス初期化等）
-	virtual void OnEnter(SceneManager* manager) = 0;
+	virtual void Initialize(Scene* manager) = 0;
 
 	//　ループ毎に呼ばれる（入力待ち、コマンド処理等）
-	virtual void OnUpdate(SceneManager* manager) = 0;
+	virtual void Update(Scene* manager) = 0;
 
 	//そのシーンを抜ける瞬間（後始末、結果表示、フラグリセット等）
-	virtual void OnExit(SceneManager* manager) = 0;
+	virtual void Finalize(Scene* manager) = 0;
 
 	//　デバッグ用
-	virtual const char* GetName() const = 0;
+	virtual std::string GetName() const = 0;
 
 };
 
 //　Singletonを継承
-class SceneManager : public Singleton<SceneManager> {
+class Scene : public Singleton<Scene> {
 
-	GENERATE_SINGLETON_BODY(SceneManager)
+	GENERATE_SINGLETON_BODY(Scene)
 
 public:
 
@@ -53,71 +53,39 @@ public:
 		//現在のシーンの終了
 		if (mCurrent) {
 
-			mCurrent->OnExit(this);
+			mCurrent->Finalize(this);
 		}
 
 		//　シーンの作成
 		mCurrent = std::make_unique<TScene>(std::forward<Args>(args)...);
 
 		//　新シーンの開始
-		mCurrent->OnEnter(this);
+		mCurrent->Initialize(this);
 
 	}
 
-	void Update() {
-		
-		if (mCurrent) {
+	void Update();
 
-			mCurrent->OnUpdate(this);
 
-		}
 
-	}
 	//　終了したいとき
-	void RequestQuit() noexcept
-	{
-
-		mIsRunning = false;
-
-	}
+	void RequestQuit() noexcept;
 
 	//　続けていいかの確認
-	bool IsRunning() const noexcept
-	{
-
-		return mIsRunning;
-
-	}
+	bool IsRunning() const noexcept;
 
 	//　デバッグ表示用（現在のシーン or　none）
-	const char* CurrentSceneName() const noexcept
-	{
+	std::string CurrentSceneName() const noexcept;
 
-		return mCurrent ? mCurrent->GetName() : "(none)";
-
-	}
 
 protected:
 
 	//SingletonによってSceneManagerが生成された直後に、初期状態をセット
-	void OnCreate() override
-	{
+	void OnCreate() override;
 
-		mIsRunning = true;
 
-	}
+	void OnDestory() override;
 
-	void OnDestory() override
-	{
-
-		//　終了時にシーンが残ってたら後始末
-		if (mCurrent) {
-
-			mCurrent->OnExit(this);
-			mCurrent.reset();
-		}
-		
-	}
 
 private:
 	

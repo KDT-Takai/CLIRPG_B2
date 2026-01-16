@@ -1,50 +1,50 @@
 #include "System/Screen/ScreenManager.hpp"
 
-void SceneManager::Update()
+void Scene::Update()
 {
 
 	if (mCurrent)
 	{
 
-		mCurrent->OnUpdate(this);
+		mCurrent->Update(this);
 
 	}
 
 }
 
-void SceneManager::RequestQuit() noexcept
+void Scene::RequestQuit() noexcept
 {
 
 	mIsRunning = false;
 
 }
 
-bool SceneManager::IsRunning() const noexcept
+bool Scene::IsRunning() const noexcept
 {
 
 	return mIsRunning;
 
 }
 
-const char* SceneManager::CurrentSceneName() const noexcept
+std::string Scene::CurrentSceneName() const noexcept
 {
 
-	return mCurrent ? mCurrent->GetName() : "(none)";
+	return mCurrent ? mCurrent->GetName() : std::string("(none)");
 
 }
 
 //Singlton‚Ì¶¬
-void SceneManager::OnCreate()
+void Scene::OnCreate()
 {
 	mIsRunning = true;
 
 }
 
-void SceneManager::OnDestory()
+void Scene::OnDestory()
 {
 	if (mCurrent) {
 
-		mCurrent->OnExit(this);
+		mCurrent->Finalize(this);
 		mCurrent.reset();
 	}
 
