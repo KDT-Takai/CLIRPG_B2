@@ -61,7 +61,7 @@ protected:
 	virtual ~Singleton()noexcept = default;
 
 	virtual void OnCreate() {};
-	virtual void OnDestory() {};
+	virtual void OnDestroy() {};
 private:
 	static T* mInstance;
 
