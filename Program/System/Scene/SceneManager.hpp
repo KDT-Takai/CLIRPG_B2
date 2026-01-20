@@ -53,7 +53,5 @@ protected:
 private:
 	
 	std::unique_ptr<IScene> mCurrent;
-
-	bool mQuitRequested = false;
 };
 
