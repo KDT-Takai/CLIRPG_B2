@@ -6,8 +6,6 @@
 #include "System/Singleton/Singleton.hpp"
 #include "System/IScene/IScene.hpp"
 
-
-
 namespace System {
 	//@Singleton‚ğŒp³
 	class SceneManager : public Singleton<SceneManager> {
