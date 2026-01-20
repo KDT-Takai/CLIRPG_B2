@@ -13,6 +13,10 @@ std::string SceneManager::CurrentSceneName() const noexcept
 	return mCurrent ? mCurrent->GetName() : std::string("none");
 }
 
+void SceneManager::OnCreate()
+{
+}
+
 //Singlton‚Ì”jŠü
 void SceneManager::OnDestory()
 {
