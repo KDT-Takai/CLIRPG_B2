@@ -138,6 +138,7 @@
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Program\System\Entity\Manager\EntityManager.hpp" />
+    <ClInclude Include="Program\System\Entity\ObjectTag\ObjectTag.hpp" />
     <ClInclude Include="Program\System\GameManager\GameManager.hpp" />
     <ClInclude Include="Program\System\Singleton\Singleton.hpp" />
     <ClInclude Include="Program\System\SystemManager\Base\ISystem.hpp" />
