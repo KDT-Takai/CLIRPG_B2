@@ -8,50 +8,49 @@
 
 
 
+namespace System {
+	//　Singletonを継承
+	class SceneManager : public Singleton<SceneManager> {
 
+		GENERATE_SINGLETON_BODY(SceneManager)
 
-//　Singletonを継承
-class SceneManager : public Singleton<SceneManager> {
+	public:
 
-	GENERATE_SINGLETON_BODY(SceneManager)
+		//　最初のシーンをセットする
+		template<class TScene, class...Args>
+		void SetStartScene(Args&&...args) {
 
-public:
+			ChangeScene<TScene>(std::forward<Args>(args)...);
 
-	//　最初のシーンをセットする
-	template<class TScene,class...Args>
-	void SetStartScene(Args&&...args) {
-
-		ChangeScene<TScene>(std::forward<Args>(args)...);
-
-	}
-
-	template<class TScene, class...Args>
-	void ChangeScene(Args&&...args)
-	{
-		//現在のシーンの終了
-		if (mCurrent) {
-
-			mCurrent->Finalize();
 		}
-		//　シーンの作成
-		mCurrent = std::make_unique<TScene>(std::forward<Args>(args)...);
-		//　新シーンの開始
-		mCurrent->Initialize();
-	}
 
-	void Update();
+		template<class TScene, class...Args>
+		void ChangeScene(Args&&...args)
+		{
+			//現在のシーンの終了
+			if (mCurrent) {
 
-	//　デバッグ表示用（現在のシーン or　none）
-	std::string CurrentSceneName() const noexcept;
+				mCurrent->Finalize();
+			}
+			//　シーンの作成
+			mCurrent = std::make_unique<TScene>(std::forward<Args>(args)...);
+			//　新シーンの開始
+			mCurrent->Initialize();
+		}
 
-protected:
+		void Update();
 
-	//SingletonによってSceneManagerが生成された直後に、初期状態をセット
-	void OnCreate() override;
-	void OnDestory() override;
+		//　デバッグ表示用（現在のシーン or　none）
+		std::string CurrentSceneName() const noexcept;
 
-private:
-	
-	std::unique_ptr<IScene> mCurrent;
-};
+	protected:
 
+		//SingletonによってSceneManagerが生成された直後に、初期状態をセット
+		void OnCreate() override;
+		void OnDestory() override;
+
+	private:
+
+		std::unique_ptr<IScene> mCurrent;
+	};
+}
