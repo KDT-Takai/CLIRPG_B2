@@ -2,14 +2,29 @@
 #include <windows.h>
 #include <iostream>
 #include <conio.h>
+#include <array>
+#include <algorithm>
 
 
+// キー入力管理クラス
 class KeyInput {
 public:
-	static bool press(int key);
-
-	static bool Down(int key);
-
+	//　指定キーが押されているか
+	static bool IsPress(int aKey);
+	//　指定キーが押された瞬間か
+	static bool IsDown(int aKey);
+	//　1文字キー入力を取得
 	static char GetKey();
 
+	
+
+public:
+	// キー数
+	static constexpr int KEY_NUM = 256;
+private:
+	// キー状態配列
+	static std::array<bool, KEY_NUM> mKeyState;
+
 };
+// キーが押されているか
+std::array<bool, KeyInput::KEY_NUM> KeyInput::mKeyState = {};

@@ -1,19 +1,21 @@
 #include "KeyInput.h"
-
-bool KeyInput::press(int key) {
-	return (GetAsyncKeyState(key) & 0x8000) != 0;
+//　指定キーが押されているか
+bool KeyInput::IsPress(int aKey) {
+	return (GetAsyncKeyState(aKey) & 0x8000) != 0;
 }
+//　指定キーが押された瞬間か
+bool KeyInput::IsDown(int aKey) {
+    if (aKey < 0 || aKey >= KEY_NUM) return false;
 
-bool KeyInput::Down(int key) {
-	static bool keyState[256] = { false };
+	// 現在のキー状態を取得
+    bool now = (GetAsyncKeyState(aKey) & 0x8000);
+    bool down = now && !mKeyState[aKey];
 
-	bool now = (GetAsyncKeyState(key) & 0x8000);
-	bool down = now && !keyState[key];
-
-	keyState[key] = now;
-	return down;
+	// 状態を更新
+    mKeyState[aKey] = now;
+    return down;
 }
-
+//　1文字キー入力を取得
 char KeyInput::GetKey() {
 	if (_kbhit()) {
 		return _getch();
@@ -21,40 +23,6 @@ char KeyInput::GetKey() {
 	return 0;
 }
 
-int main() {
-    std::cout << "ESCで終了\n";
-
-    while (true)
-    {
-        // 押されている間
-        if (KeyInput::press('A'))
-        {
-            std::cout << "A 押しっぱなし\n";
-        }
-
-        // 押した瞬間
-        if (KeyInput::Down('B'))
-        {
-            std::cout << "B 押した！\n";
-        }
-
-        // 1文字入力
-        char c = KeyInput::GetKey();
-        if (c)
-        {
-            std::cout << "入力: " << c << std::endl;
-        }
-
-        if (KeyInput::press(VK_ESCAPE))
-        {
-            break;
-        }
-
-        Sleep(16); // 約60FPS
-    }
-
-    return 0;
-}
 
 
 
