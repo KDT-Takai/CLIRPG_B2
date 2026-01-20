@@ -19,7 +19,6 @@ public:
 
 	//　最初のシーンをセットする
 	template<class TScene,class...Args>
-
 	void SetStartScene(Args&&...args) {
 
 		ChangeScene<TScene>(std::forward<Args>(args)...);
@@ -27,7 +26,6 @@ public:
 	}
 
 	template<class TScene, class...Args>
-
 	void ChangeScene(Args&&...args)
 	{
 		//現在のシーンの終了
@@ -43,10 +41,6 @@ public:
 
 	void Update();
 
-	//　終了したいとき
-	void RequestQuit() noexcept;
-	bool IsQuitRequested() const noexcept;
-
 	//　デバッグ表示用（現在のシーン or　none）
 	std::string CurrentSceneName() const noexcept;
 
@@ -61,6 +55,5 @@ private:
 	std::unique_ptr<IScene> mCurrent;
 
 	bool mQuitRequested = false;
-
 };
 

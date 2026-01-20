@@ -8,19 +8,9 @@ void SceneManager::Update()
 	}
 }
 
-void SceneManager::RequestQuit() noexcept
-{
-	mQuitRequested = true;
-}
-
-bool SceneManager::IsQuitRequested() const noexcept
-{
-	return mQuitRequested;
-}
-
 std::string SceneManager::CurrentSceneName() const noexcept
 {
-	return mCurrent ? mCurrent->GetName() : std::string("(none)");
+	return mCurrent ? mCurrent->GetName() : std::string("none");
 }
 
 //Singlton‚Ì¶¬
