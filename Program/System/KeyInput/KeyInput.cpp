@@ -1,10 +1,10 @@
 #include "KeyInput.h"
 //　指定キーが押されているか
-bool KeyInput::IsPress(int aKey) {
+bool Input::KeyInput::IsPress(int aKey) {
 	return (GetAsyncKeyState(aKey) & 0x8000) != 0;
 }
 //　指定キーが押された瞬間か
-bool KeyInput::IsDown(int aKey) {
+bool Input::KeyInput::IsDown(int aKey) {
     if (aKey < 0 || aKey >= KEY_NUM) return false;
 
 	// 現在のキー状態を取得
@@ -16,7 +16,7 @@ bool KeyInput::IsDown(int aKey) {
     return down;
 }
 //　1文字キー入力を取得
-char KeyInput::GetKey() {
+char Input::KeyInput::GetKey() {
 	if (_kbhit()) {
 		return _getch();
 	}
