@@ -5,7 +5,7 @@
 #include <array>
 #include <algorithm>
 
-namespace Input {
+namespace System {
 
 	// キー入力管理クラス
 	class KeyInput {
