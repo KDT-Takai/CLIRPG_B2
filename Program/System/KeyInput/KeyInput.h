@@ -10,6 +10,9 @@ namespace System {
 	// キー入力管理クラス
 	class KeyInput {
 	public:
+
+		static void Update();
+
 		//　指定キーが押されているか
 		static bool IsPress(int aKey);
 		//　指定キーが押された瞬間か
@@ -22,9 +25,11 @@ namespace System {
 
 	private:
 		// キー状態配列
-		static std::array<bool, KEY_NUM> mKeyState;
+		static std::array<bool, KEY_NUM> mNow;
+		static std::array<bool, KEY_NUM> mPrev;
 
 	};
 	// キーが押されているか
-	std::array<bool, KeyInput::KEY_NUM> KeyInput::mKeyState = {};
+	std::array<bool, KeyInput::KEY_NUM> KeyInput::mNow = {};
+	std::array<bool, KeyInput::KEY_NUM> KeyInput::mPrev = {};
 }
