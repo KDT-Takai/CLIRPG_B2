@@ -11,18 +11,18 @@ namespace System {
 
     //　指定キーが押されているか
     bool System::KeyInput::IsPress(int aKey) {
+        if (aKey < 0 || aKey >= KEY_NUM)return false;
         return mNow[aKey];
     }
     //　指定キーが押された瞬間か
     bool System::KeyInput::IsDown(int aKey) {
+        if (aKey < 0 || aKey >= KEY_NUM)return false;
         return mNow[aKey] && !mPrev[aKey];
     }
-    //　1文字キー入力を取得
-    char System::KeyInput::GetKey() {
-        if (_kbhit()) {
-            return _getch();
-        }
-        return 0;
+    // 指定キーが離された瞬間か
+    bool KeyInput::IsUP(int aKey) {
+        if (aKey < 0 || aKey >= KEY_NUM)return false;
+        return !mNow[aKey] && mPrev[aKey];
     }
 
 }

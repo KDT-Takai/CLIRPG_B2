@@ -17,8 +17,8 @@ namespace System {
 		static bool IsPress(int aKey);
 		//　指定キーが押された瞬間か
 		static bool IsDown(int aKey);
-		//　1文字キー入力を取得
-		static char GetKey();
+		// 指定キーが離された瞬間か
+		static bool IsUP(int aKey);
 
 		// キー数
 		static constexpr int KEY_NUM = 256;
@@ -29,7 +29,4 @@ namespace System {
 		static std::array<bool, KEY_NUM> mPrev;
 
 	};
-	// キーが押されているか
-	std::array<bool, KeyInput::KEY_NUM> KeyInput::mNow = {};
-	std::array<bool, KeyInput::KEY_NUM> KeyInput::mPrev = {};
 }
