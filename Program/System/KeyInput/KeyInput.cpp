@@ -1,11 +1,6 @@
 #include "KeyInput.h"
 namespace System {
-    
-    KeyInput& KeyInput::GetInstance() {
-        static KeyInput instance;
-        return instance;
-    }
-
+      
     std::array<bool, KeyInput::KEY_NUM> KeyInput::mNow = {};
     std::array<bool, KeyInput::KEY_NUM> KeyInput::mPrev = {};
     void System::KeyInput::Update() {
