@@ -26,13 +26,21 @@ namespace Component
 	struct CharactorStatusComp
 	{
 		std::string Name = "Default";
-		Charactors::Status Status;
+		Charactors::Status FixedStatus;
+		Charactors::Status CurrentStasuts;
 		Charactors::Level Level;
 
 		CharactorStatusComp() = default;
 
 		CharactorStatusComp(const std::string& aName, const Charactors::Status& aStatus)
-			:Name(aName), Status(aStatus)
+			:Name(aName), FixedStatus(aStatus), CurrentStasuts(aStatus)
+		{
+		}
+		
+
+		CharactorStatusComp(const std::string& aName, const Charactors::Status& aStatus,
+			const Charactors::Level& aLevel)
+			:Name(aName), FixedStatus(aStatus), CurrentStasuts(aStatus),Level(aLevel)
 		{
 		}
 
