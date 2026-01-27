@@ -5,6 +5,7 @@
 #include <array>
 #include <algorithm>
 
+// キー入力管理クラスのヘッダーファイル
 namespace System {
 
 	// キー入力管理クラス
