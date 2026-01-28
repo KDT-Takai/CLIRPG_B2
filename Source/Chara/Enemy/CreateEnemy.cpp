@@ -12,7 +12,7 @@ namespace Charactors
 	inline entt::entity EnemyFactory::CreateEnemy(entt::registry& Reg, int id)
 	{
 		//	エンティティID取得
-		auto entity = System::EntityManager::GetInstance()->CreateGlobalEntity();
+		auto entity = System::EntityManager::GetInstance()->CreateLocalEntity();
 
 		//	ステータス取得
 		std::string name;
