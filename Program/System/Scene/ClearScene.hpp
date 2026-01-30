@@ -6,10 +6,10 @@
 namespace System {
 	class ClearScene final : public IScene {
 	public:
-		std::string GetName() const override { return "ClearScene"; }
+		std::string GetName() const override;
 
-		void Initialize() override {}
-		void Update() override {}
-		void Finalize() override {}
+		void Initialize() override;
+		void Update() override;
+		void Finalize() override;
 	};
 }

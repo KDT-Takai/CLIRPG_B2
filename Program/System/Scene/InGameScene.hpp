@@ -6,10 +6,10 @@
 namespace System {
 	class InGameScene final : public IScene {
 	public:
-		std::string GetName() const override { return "InGameScene"; }
+		std::string GetName() const override;
 
-		void Initialize() override {}
-		void Update() override {}
-		void Finalize() override {}
+		void Initialize() override;
+		void Update() override;
+		void Finalize() override;
 	};
 }
