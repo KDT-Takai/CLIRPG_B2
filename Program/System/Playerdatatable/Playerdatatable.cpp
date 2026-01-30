@@ -1,7 +1,7 @@
 #include "Playerdatatable.h"
 
 //　プレイヤーデータの関数
-void InitPlayer() {
+void Charactors::PlayerDataTable::InitPlayer() {
     //　プレイヤーデータテーブルの作成
     PlayerDataTable table;
 
@@ -9,8 +9,7 @@ void InitPlayer() {
     Status status = { 100,50,20,10 };
     //　プレイヤーのレベル
     Level level = { 1,0,100 };
-	//　プレイヤーの追加
-    table.AddPlayer("勇者", status, level);
+	
     
     //　プレイヤーの取得と表示
     PlayerData* player = table.GetPlayer(0);
