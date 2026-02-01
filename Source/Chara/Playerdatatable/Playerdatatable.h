@@ -1,7 +1,10 @@
 #pragma once
 #include <iostream>
-#include "Source/Chara/Status/CharactorStatusComponent.h"
+#include "../Status/CharactorStatusComponent.h"
+#include <vector>
+
 namespace Charactors {
+
     // プレイヤーデータテーブルクラス
     class PlayerDataTable {
     public:
@@ -9,27 +12,30 @@ namespace Charactors {
         //　プレイヤーデータの構造体
         static struct PlayerData {
             int id;                 // 0から始まるID
-            std::string name;       // 名前
+			std::string name;      // キャラクター名
+            Charactors::Status statusComp;
         };
 
         //　プレイヤーのIDでの取得
-        PlayerData* GetPlayer(int id) {
-            if (id < 0 || id >= static_cast<int>(mPlayer.size())) {
+        static PlayerData* GetPlayer(int id) 
+        {
+            if (id < 0 || id >= static_cast<int>(mPlayer.size())) 
+            {
                 return nullptr;
             }
             return &mPlayer[id];
         }
 
         // プレイヤー人数の取得
-        int GetPlayerCont() const {
+        int GetPlayerCont() const
+        {
             return static_cast<int>(mPlayer.size());
         }
-        //　プレイヤーデータの関数
-        static void InitPlayer();
 
     private:
+
         //　プレイヤーデータの配列
-        std::vector<PlayerData> mPlayer;
+        static std::vector<PlayerData> mPlayer;
     };
 }
 
