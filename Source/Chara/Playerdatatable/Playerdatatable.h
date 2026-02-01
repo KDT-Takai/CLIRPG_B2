@@ -3,39 +3,46 @@
 #include "../Status/CharactorStatusComponent.h"
 #include <vector>
 
-namespace Charactors {
+namespace Charactors
+{
+
+    //　プレイヤーデータの構造体
+    struct PlayerData 
+    {
+        int id;                 // 0から始まるID
+        std::string name;      // キャラクター名
+        Charactors::Status statusComp;
+    };
+
 
     // プレイヤーデータテーブルクラス
-    class PlayerDataTable {
+    class PlayerDataTable 
+    {
     public:
 
-        //　プレイヤーデータの構造体
-        static struct PlayerData {
-            int id;                 // 0から始まるID
-			std::string name;      // キャラクター名
-            Charactors::Status statusComp;
-        };
 
         //　プレイヤーのIDでの取得
         static PlayerData* GetPlayer(int id) 
         {
-            if (id < 0 || id >= static_cast<int>(mPlayer.size())) 
+            if (id < 0 || id >= static_cast<int>(player.size())) 
             {
                 return nullptr;
             }
-            return &mPlayer[id];
+            return &player[id];
         }
 
         // プレイヤー人数の取得
-        int GetPlayerCont() const
+        //  いらないと思うけど一応作っておいているだけ
+        static int GetPlayerCont()
         {
-            return static_cast<int>(mPlayer.size());
+            return static_cast<int>(player.size());
         }
 
     private:
 
         //　プレイヤーデータの配列
-        static std::vector<PlayerData> mPlayer;
+        static std::vector<PlayerData> player;
+
     };
 }
 
