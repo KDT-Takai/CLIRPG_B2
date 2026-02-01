@@ -131,21 +131,39 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="Program\Graphics\Renderer.cpp" />
+    <ClCompile Include="Program\System\Entity\Manager\EntityManager.cpp" />
     <ClCompile Include="Program\System\GameManager\GameManager.cpp" />
     <ClCompile Include="Program\main.cpp" />
-    <ClCompile Include="Program\System\Screen\ScreenManager.cpp" />
+    <ClCompile Include="Program\System\KeyInput\KeyInput.cpp" />
+    <ClCompile Include="Program\System\Scene\ClearScene.cpp" />
+    <ClCompile Include="Program\System\Scene\InGameScene.cpp" />
+    <ClCompile Include="Program\System\Scene\SceneManager.cpp" />
+    <ClCompile Include="Program\System\Scene\TitleScene.cpp" />
     <ClCompile Include="Program\System\SystemManager\SystemManager.cpp" />
     <ClCompile Include="Source\Hierarchy\System\HierarchySystem.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="Plugin\entt\entt.hpp" />
+    <ClInclude Include="Program\Graphics\Renderer.hpp" />
+    <ClInclude Include="Program\System\Entity\Manager\EntityManager.hpp" />
+    <ClInclude Include="Program\System\Entity\ObjectTag\ObjectTag.hpp" />
     <ClInclude Include="Program\System\GameManager\GameManager.hpp" />
-    <ClInclude Include="Program\System\Screen\ScreenManager.hpp" />
+    <ClInclude Include="Program\System\IScene\IScene.hpp" />
+    <ClInclude Include="Program\System\KeyInput\KeyInput.h" />
+    <ClInclude Include="Program\System\Scene\ClearScene.hpp" />
+    <ClInclude Include="Program\System\Scene\InGameScene.hpp" />
+    <ClInclude Include="Program\System\Scene\SceneManager.hpp" />
+    <ClInclude Include="Program\System\Scene\TitleScene.hpp" />
     <ClInclude Include="Program\System\Singleton\Singleton.hpp" />
     <ClInclude Include="Program\System\SystemManager\Base\ISystem.hpp" />
     <ClInclude Include="Program\System\SystemManager\SystemManager.hpp" />
     <ClInclude Include="Source\Hierarchy\HierarchyComponent.hpp" />
     <ClInclude Include="Source\Hierarchy\System\HierarchySystem.hpp" />
     <ClInclude Include="Source\Scene\Event\SceneEventComponent.hpp" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Document\README.md" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
