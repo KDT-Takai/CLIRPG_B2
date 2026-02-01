@@ -18,6 +18,9 @@ namespace Charactors
 		//	¶¬
 		static entt::entity CreateEnemy(entt::registry& Reg, int id);
 
+		//	ƒtƒƒA‚É‰‚¶‚½“G¶¬
+		static std::vector<entt::entity> CreateFloorEnemies(entt::registry& Reg, int floor);
+
 	};
 
 
