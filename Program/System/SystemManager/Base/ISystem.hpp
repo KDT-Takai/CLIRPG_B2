@@ -45,7 +45,7 @@ namespace System
 		auto view = Reg.view<Components...>();
 		// Viewをイテレートして各エンティティを処理
 		for (auto entity : view) {
-			UpdateEntity(entity, view.template get<Components>(entity)...);
+			UpdateEntity(Reg ,entity, view.template get<Components>(entity)...);
 		}
 	}
 }

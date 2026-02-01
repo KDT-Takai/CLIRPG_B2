@@ -4,13 +4,14 @@
 
 namespace System
 {
-	class HierarchySystem : public BaseSystem<Component::HierarchyComponent, Component::HierarchyPush>
+	class HierarchySystem : public BaseSystem<Component::HierarchyComponent>
 	{
 	public:
 		/// <summary>
-		/// ó‘ÔXV
+		/// 
 		/// </summary>
-		void UpdateEntity(entt::registry& Reg,entt::entity Entity, Component::HierarchyComponent& Hierarchy, Component::HierarchyPush&)override;
+		/// <param name="Reg"></param>
+		void Update(entt::registry& Reg)override;
 	private:
 
 	};
