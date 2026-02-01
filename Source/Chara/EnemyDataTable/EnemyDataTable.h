@@ -11,7 +11,7 @@ namespace Charactors
     {
         int id;                 // 0から始まるID
         std::string name;       // キャラクター名
-        Charactors::Status statusComp;
+        Charactors::Status status;
     };
 
 
@@ -22,7 +22,7 @@ namespace Charactors
 
 
         //　敵のIDでの取得
-        static EnemyData* GetEnemy(int id)
+        static EnemyData* GetEnemyData(int id)
         {
             if (id < 0 || id >= static_cast<int>(enemy.size()))
             {
@@ -31,17 +31,27 @@ namespace Charactors
             return &enemy[id];
         }
 
-        // 敵種類の取得
-        //  いらないと思うけど一応作っておいているだけ
-        static int GetEnemyCont() 
+        //  階層毎の出現敵IDリストの取得
+        //  ０階から始まる想定なので注意
+		static const std::vector<int>* GetFloorEnemyTable(int floor)
         {
-            return static_cast<int>(enemy.size());
-        }
+            
+            if (floor < 0 || floor >= static_cast<int>(floorEnemyTable.size()))
+            {
+                return nullptr;
+			}
+
+            return &floorEnemyTable[floor];
+		}
+
+
 
     private:
 
         //　敵データの配列
         static std::vector<EnemyData> enemy;
+
+        static std::vector<std::vector<int>> floorEnemyTable;
 
     };
 }
