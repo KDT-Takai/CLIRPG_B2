@@ -20,7 +20,7 @@ namespace System {
 	}
 
 	//Singlton‚Ì”jŠüŽž
-	void SceneManager::OnDestory()
+	void SceneManager::OnDestroy()
 	{
 		if (mCurrent) {
 			mCurrent->Finalize();

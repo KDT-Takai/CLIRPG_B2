@@ -43,7 +43,7 @@ public:
 	{
 		if (mInstance != nullptr)
 		{
-			mInstance->OnDestory();
+			mInstance->OnDestroy();
 			delete mInstance;
 			mInstance = nullptr;
 		}
