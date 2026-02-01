@@ -23,6 +23,4 @@ void System::HierarchySystem::Update(entt::registry& Reg)
 			}
 		});
 
-
-
 }
