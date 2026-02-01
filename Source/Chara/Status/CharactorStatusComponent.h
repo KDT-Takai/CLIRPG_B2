@@ -14,11 +14,6 @@ namespace Charactors
 		int MAG = 1;
 	};
 
-	struct Level
-	{
-		int Level = 1;
-		int Exp = 0;
-	};
 }
 
 namespace Component
@@ -29,7 +24,6 @@ namespace Component
 		std::string Name = "Default";
 		Charactors::Status BaseStatus;			//	基礎ステータス値
 		Charactors::Status FinalStasuts;		//	最終ステータス値
-		Charactors::Level Level;				//	レベル
 		int hp = -1;							//	体力値
 		int mp = -1;							//	魔力値
 
@@ -40,14 +34,7 @@ namespace Component
 			hp(FinalStasuts.HP), mp(FinalStasuts.MP)
 		{
 		}
-		
 
-		CharactorStatusComp(const std::string& aName, const Charactors::Status& aStatus,
-			const Charactors::Level& aLevel)
-			:Name(aName), BaseStatus(aStatus), FinalStasuts(aStatus),Level(aLevel), 
-			hp(FinalStasuts.HP), mp(FinalStasuts.MP)
-		{
-		}
 
 		const int GetMaxHP()
 		{

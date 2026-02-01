@@ -11,7 +11,7 @@ namespace Charactors
     {
         int id;                 // 0から始まるID
         std::string name;      // キャラクター名
-        Charactors::Status statusComp;
+        Charactors::Status status;
     };
 
 
@@ -22,7 +22,7 @@ namespace Charactors
 
 
         //　プレイヤーのIDでの取得
-        static PlayerData* GetPlayer(int id) 
+        static PlayerData* GetPlayerData(int id) 
         {
             if (id < 0 || id >= static_cast<int>(player.size())) 
             {

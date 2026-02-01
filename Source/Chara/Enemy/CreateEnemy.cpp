@@ -1,5 +1,7 @@
 #include "CreateEnemy.h"
 
+#include "../EnemyDataTable/EnemyDataTable.h"
+
 namespace Charactors
 {
 
@@ -17,19 +19,17 @@ namespace Charactors
 		//	ステータス取得
 		std::string name;
 		Charactors::Status status;
-		Charactors::Level level;
 
 		// データベースから取得
-
-		//	TODO: データベース実装後に修正
+		auto data = EnemyDataTable::GetEnemyData(id);
 
 		//	名前設定
+		name = data->name;
 		//	ステータス設定
-		//	レベル設定
-
+		status = data->status;
 
 		//	コンポーネントアタッチ
-		Reg.emplace<Component::CharactorStatusComp>(entity, name, status, level);
+		Reg.emplace<Component::CharactorStatusComp>(entity, name, status);
 		//	タグの付与
 		Reg.emplace<Component::EnemyTag>(entity);
 
