@@ -31,7 +31,7 @@ namespace System
 		/// </summary>
 		/// <param name="Entity">エンティティ</param>
 		/// <param name="...Component">コンポーネントの可変長</param>
-		virtual void UpdateEntity(entt::entity Entity, Components&... Component) = 0;
+		virtual void UpdateEntity(entt::registry& Reg,entt::entity Entity, Components&... Component) = 0;
 	public:
 		/// <summary>
 		/// 状態更新
