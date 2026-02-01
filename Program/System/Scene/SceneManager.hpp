@@ -45,7 +45,7 @@ namespace System {
 
 		//SingletonによってSceneManagerが生成された直後に、初期状態をセット
 		void OnCreate() override;
-		void OnDestory() override;
+		void OnDestroy() override;
 
 	private:
 

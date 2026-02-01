@@ -39,9 +39,9 @@ namespace System
 		/// <param name="...Arg">引数</param>
 		/// <returns>コンポーネントのインスタンスの参照</returns>
 		template<typename T,typename... Args>
-		T& AddComponent(entt::entity Entity, Args&&... Arg)
+		T& AddComponent(entt::entity entity, Args&&... arg)
 		{
-			return mRegistry.emplace<T>(Entity, std::forward<Args>(Args)...);
+			return mRegistry.emplace<T>(entity, std::forward<Args>(arg)...);
 		}
 
 		/// <summary>
