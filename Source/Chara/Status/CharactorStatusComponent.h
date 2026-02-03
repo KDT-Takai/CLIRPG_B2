@@ -61,7 +61,7 @@ namespace Component
 				return;
 			}
 
-			hp = std::max(0, std::min(hp + value, FinalStasuts.HP));
+			hp = std::clamp(hp + value, 0, FinalStasuts.HP);
 		}
 
 		//	ƒ_ƒ[ƒWˆ—
@@ -73,7 +73,7 @@ namespace Component
 				return;
 			}
 
-			hp = std::max(0, hp - value);
+			hp = std::clamp(hp - value, 0, FinalStasuts.HP);
 		}
 
 		//	MP‰ñ•œˆ—
@@ -85,7 +85,7 @@ namespace Component
 				return;
 			}
 
-			mp = std::max(0, std::min(mp + value, FinalStasuts.MP));
+			mp = std::clamp(mp + value, 0, FinalStasuts.MP);
 		}
 
 

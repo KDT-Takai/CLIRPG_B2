@@ -28,6 +28,9 @@ void Graphics::Renderer::ClearText() {
 /// コンソールのクリア
 /// </summary>
 void Graphics::Renderer::ClearConsole() {
+	system("cls");
+	mIsDirty = true;
+	Render();
 }
 
 /// <summary>

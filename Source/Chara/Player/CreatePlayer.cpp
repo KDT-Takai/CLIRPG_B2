@@ -11,7 +11,7 @@ namespace Charactors
 	/// <param name="Reg">レジストリ</param>
 	/// <param name="id">生成ID</param>
 	/// <returns>エンティティ</returns>
-	inline entt::entity PlayerFactory::CreatePlayer(entt::registry& Reg,int id)
+	entt::entity PlayerFactory::CreatePlayer(entt::registry& Reg,int id)
 	{
 		//	エンティティID取得
 		auto entity = System::EntityManager::GetInstance()->CreateLocalEntity();
