@@ -13,9 +13,8 @@
 #include <thread>
 #include <chrono>
 
-#ifdef _DEBUG
-//#define DEBUG_SLEEP
-#endif // _DEBUG
+
+#define DEBUG_SLEEP
 
 
 namespace System {
