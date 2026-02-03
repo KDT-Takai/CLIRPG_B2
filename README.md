@@ -1,7 +1,7 @@
 # プロジェクト名
 CLIRPG_B2_
 
-## リンク[
+## リンク
 [Issues](https://github.com/KDT-Takai/CLIRPG_B2/issues)
 [PR](https://github.com/KDT-Takai/CLIRPG_B2/pulls)
 [Actions](https://github.com/KDT-Takai/CLIRPG_B2/actions)
