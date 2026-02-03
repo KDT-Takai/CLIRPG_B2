@@ -1,4 +1,22 @@
-﻿# プロジェクト名
+<p align="center">
+  <a href="https://github.com/KDT-Takai/CLIRPG_B2/actions">
+    <img alt="Tests Passing" src="https://github.com/anuraghazra/github-readme-stats/workflows/Test/badge.svg" />
+  </a>
+  <a href="https://github.com/KDT-Takai/CLIRPG_B2/pulse">
+    <img alt="GitHub Contributors" src="https://img.shields.io/github/contributors/anuraghazra/github-readme-stats" />
+  </a>
+  <a href="https://github.com/KDT-Takai/CLIRPG_B2/issues">
+    <img alt="Issues" src="https://img.shields.io/github/issues/anuraghazra/github-readme-stats?color=0088ff" />
+  </a>
+  <a href="[https://github.com/anuraghazra/github-readme-stats/pulls](https://github.com/KDT-Takai/CLIRPG_B2/pulls)">
+    <img alt="GitHub pull requests" src="https://img.shields.io/github/issues-pr/anuraghazra/github-readme-stats?color=0088ff" />
+  </a>
+  <a href="https://securityscorecards.dev/viewer/?uri=github.com/anuraghazra/github-readme-stats">
+    <img alt="OpenSSF Scorecard" src="https://api.securityscorecards.dev/projects/github.com/anuraghazra/github-readme-stats/badge" />
+  </a>
+</p>
+ 
+# プロジェクト名
 CLIRPG_B2_
 
 ## 概要
