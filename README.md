@@ -1,6 +1,12 @@
 # プロジェクト名
 CLIRPG_B2_
 
+## リンク[
+[Issues](https://github.com/KDT-Takai/CLIRPG_B2/issues)
+[PR](https://github.com/KDT-Takai/CLIRPG_B2/pulls)
+[Actions](https://github.com/KDT-Takai/CLIRPG_B2/actions)
+[Insights](https://github.com/KDT-Takai/CLIRPG_B2/pulse)
+
 ## 概要
 CLIRPG_B2_は、Visual Studioで作成したC++のコンソールRPG。
 プレイヤーは攻撃や魔法、アイテムを駆使してモンスターと戦い、階層を進みます。  
