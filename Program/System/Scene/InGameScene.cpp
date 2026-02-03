@@ -239,11 +239,13 @@ namespace System {
 					
 					//	アイテムの使用
 					if (mItems[i].type == ItemType::HealHP) {
-						pStatus.hp += mItems[i].value;
+//						pStatus.hp += mItems[i].value;
+						pStatus.HpHeal(mItems[i].value);
 						renderer->AddText(mItems[i].name + " used! +" + std::to_string(mItems[i].value) + " HP");
 					}
 					else if (mItems[i].type == ItemType::HealMP) {
-						pStatus.mp += mItems[i].value;
+//						pStatus.mp += mItems[i].value;
+						pStatus.MpHeal(mItems[i].value);
 						renderer->AddText(mItems[i].name + " used! +" + std::to_string(mItems[i].value) + " MP");
 					}
 
