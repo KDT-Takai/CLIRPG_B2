@@ -11,9 +11,6 @@
   <a href="[https://github.com/anuraghazra/github-readme-stats/pulls](https://github.com/KDT-Takai/CLIRPG_B2/pulls)">
     <img alt="GitHub pull requests" src="https://img.shields.io/github/issues-pr/anuraghazra/github-readme-stats?color=0088ff" />
   </a>
-  <a href="https://securityscorecards.dev/viewer/?uri=github.com/anuraghazra/github-readme-stats">
-    <img alt="OpenSSF Scorecard" src="https://api.securityscorecards.dev/projects/github.com/anuraghazra/github-readme-stats/badge" />
-  </a>
 </p>
  
 # プロジェクト名
