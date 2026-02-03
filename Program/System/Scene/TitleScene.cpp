@@ -12,6 +12,8 @@ namespace System {
 		auto* renderer = Graphics::Renderer::GetInstance();
 		renderer->ClearText();
 		renderer->AddText("TITLE");
+		renderer->AddText("Push To Enter");
+
 	}
 	void TitleScene::Update() {
 		auto* renderer = Graphics::Renderer::GetInstance();
@@ -21,6 +23,7 @@ namespace System {
 		if (System::KeyInput::IsDown(VK_RETURN))
 		{
 			System::SceneManager::GetInstance()->ChangeScene<InGameScene>();
+			system("cls");
 			return;
 		}
 	}

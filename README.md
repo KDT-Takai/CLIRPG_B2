@@ -1,5 +1,12 @@
-﻿# プロジェクト名
+# プロジェクト名
 CLIRPG_B2_
+
+## リンク
+- [Develop](https://github.com/KDT-Takai/CLIRPG_B2/tree/feature/Develop)
+- [Issues](https://github.com/KDT-Takai/CLIRPG_B2/issues)
+- [PR](https://github.com/KDT-Takai/CLIRPG_B2/pulls)
+- [Actions](https://github.com/KDT-Takai/CLIRPG_B2/actions)
+- [Insights](https://github.com/KDT-Takai/CLIRPG_B2/pulse)
 
 ## 概要
 CLIRPG_B2_は、Visual Studioで作成したC++のコンソールRPG。
