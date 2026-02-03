@@ -23,7 +23,7 @@ namespace System {
 		if (System::KeyInput::IsDown(VK_RETURN))
 		{
 			System::SceneManager::GetInstance()->ChangeScene<InGameScene>();
-			system("cls");
+			renderer->ClearConsole();
 			return;
 		}
 	}
