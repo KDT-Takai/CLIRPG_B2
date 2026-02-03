@@ -1,4 +1,4 @@
-#include "InGameScene.hpp"
+ï»¿#include "InGameScene.hpp"
 #include "System/Entity/Manager/EntityManager.hpp"
 #include "System/SystemManager/SystemManager.hpp"
 #include "Hierarchy/System/HierarchySystem.hpp"
@@ -33,16 +33,16 @@ namespace System {
 		System::EntityManager::GetInstance()->Create();
 		auto& reg = System::EntityManager::GetInstance()->GetRegistry();
 
-		//// ƒvƒŒƒCƒ„[¶¬
+		//// ãƒ—ãƒ¬ã‚¤ãƒ¤ãƒ¼ç”Ÿæˆ
 		mPlayerParty.clear();
 		auto hero = Charactors::PlayerFactory::CreatePlayer(reg, 0);
 		mPlayerParty.push_back(hero);
 
-		//// ŠK‘wŠÇ——pƒGƒ“ƒeƒBƒeƒBì¬
+		//// éšå±¤ç®¡ç†ç”¨ã‚¨ãƒ³ãƒ†ã‚£ãƒ†ã‚£ä½œæˆ
 		mGameMngEntity = System::EntityManager::GetInstance()->CreateLocalEntity();
 		reg.emplace<Component::HierarchyComponent>(mGameMngEntity, 1, 10);
 
-		//// ‰Šúİ’è
+		//// åˆæœŸè¨­å®š
 		mPrevFloor = 1;
 		mEnemyParty.clear();
 		mState = GameState::PlayerTurn;
@@ -74,10 +74,10 @@ namespace System {
 				auto& reg = System::EntityManager::GetInstance()->GetRegistry();
 				auto& hierarchy = reg.get<Component::HierarchyComponent>(mGameMngEntity);
 
-				hierarchy.Level++;        // ƒtƒƒAis
+				hierarchy.Level++;        // ãƒ•ãƒ­ã‚¢é€²è¡Œ
 				mPrevFloor = hierarchy.Level;
 
-				SpawnEnemy();             // “GÄ¶¬
+				SpawnEnemy();             // æ•µå†ç”Ÿæˆ
 				mState = GameState::PlayerTurn;
 			}
 		break;
@@ -97,13 +97,13 @@ namespace System {
 	void InGameScene::SpawnEnemy() {
 		auto& reg = System::EntityManager::GetInstance()->GetRegistry();
 
-		// ŒÃ‚¢“G‚ğíœ
+		// å¤ã„æ•µã‚’å‰Šé™¤
 		for (auto e : mEnemyParty) {
 			if (reg.valid(e)) reg.destroy(e);
 		}
 		mEnemyParty.clear();
 
-		// “G‚Ì¶¬
+		// æ•µã®ç”Ÿæˆ
 		int floorIndex = mPrevFloor - 1;
 		mEnemyParty = Charactors::EnemyFactory::CreateFloorEnemies(reg, floorIndex);
 
@@ -112,12 +112,12 @@ namespace System {
 		Graphics::Renderer::GetInstance()->ClearText();
 	}
 
-	//	ƒvƒŒƒCƒ„[ƒ^[ƒ“
+	//	ãƒ—ãƒ¬ã‚¤ãƒ¤ãƒ¼ã‚¿ãƒ¼ãƒ³
 	void InGameScene::PlayerTurn() {
 		auto* renderer = Graphics::Renderer::GetInstance();
 		auto& reg = System::EntityManager::GetInstance()->GetRegistry();
 
-		// æ“ªƒvƒŒƒCƒ„[
+		// å…ˆé ­ãƒ—ãƒ¬ã‚¤ãƒ¤ãƒ¼
 		entt::entity activePlayer = entt::null;
 		for (auto e : mPlayerParty) {
 			if (reg.get<Component::CharactorStatusComp>(e).hp > 0) {
@@ -125,13 +125,13 @@ namespace System {
 				break;
 			}
 		}
-		// –¡•û‘S–Å
+		// å‘³æ–¹å…¨æ»…
 		if (activePlayer == entt::null) {
 			mState = GameState::GameOver;
 			return;
 		}
 
-		// æ“ª‚Ì“G
+		// å…ˆé ­ã®æ•µ
 		entt::entity activeEnemy = entt::null;
 		for (auto e : mEnemyParty) {
 			if (reg.get<Component::CharactorStatusComp>(e).hp > 0) {
@@ -139,13 +139,13 @@ namespace System {
 				break;
 			}
 		}
-		// Ÿ—˜
+		// å‹åˆ©
 		if (activeEnemy == entt::null) {
 			mState = GameState::BattleResult;
 			return;
 		}
 
-		// ‰æ–Ê•`‰æ
+		// ç”»é¢æç”»
 		if (mNeedRedraw) {
 			renderer->ClearText();
 			renderer->AddText("Floor: " + std::to_string(mPrevFloor));
@@ -175,16 +175,16 @@ namespace System {
 			mNeedRedraw = false;
 		}
 
-		// “ü—ÍAs“®ˆ—
+		// å…¥åŠ›ã€è¡Œå‹•å‡¦ç†
 		bool isActionTaken = false;
 		auto& pStatus = reg.get<Component::CharactorStatusComp>(activePlayer);
 		auto& eStatus = reg.get<Component::CharactorStatusComp>(activeEnemy);
 
-		//	‘I‘ğ’iŠK•ªŠò
+		//	é¸æŠæ®µéšåˆ†å²
 		if(mSelect == System::SelectState::ActionSelect){
 
-			//	’ÊíUŒ‚
-			if (System::KeyInput::IsDown('1')) { // ’ÊíUŒ‚
+			//	é€šå¸¸æ”»æ’ƒ
+			if (System::KeyInput::IsDown('1')) { // é€šå¸¸æ”»æ’ƒ
 				int damage = pStatus.FinalStasuts.ATK - eStatus.FinalStasuts.DEF / 2;
 				if (damage < 1) { damage = 1; }
 
@@ -192,8 +192,8 @@ namespace System {
 				renderer->AddText("Atk! Dealt " + std::to_string(damage) + " dmg.");
 				isActionTaken = true;
 			}
-			//	–‚–@‚Ìg—p
-			else if (System::KeyInput::IsDown('2')) { // –‚–@
+			//	é­”æ³•ã®ä½¿ç”¨
+			else if (System::KeyInput::IsDown('2')) { // é­”æ³•
 				if (pStatus.mp >= 5) {
 					pStatus.mp -= 5;
 					int damage = pStatus.FinalStasuts.MAG;
@@ -205,20 +205,20 @@ namespace System {
 					renderer->AddText("Not enough MP!");
 				}
 			}
-			//	ƒAƒCƒeƒ€‚Ìg—p
+			//	ã‚¢ã‚¤ãƒ†ãƒ ã®ä½¿ç”¨
 			else if (System::KeyInput::IsDown('3')) {
 
-				//	ƒAƒCƒeƒ€c—ÊŠm”F
+				//	ã‚¢ã‚¤ãƒ†ãƒ æ®‹é‡ç¢ºèª
 				if (!mItems.empty()) {
 
-					//	ƒAƒCƒeƒ€‚Ì”‚¾‚¯‘I‘ğˆ‚ğ•\¦
+					//	ã‚¢ã‚¤ãƒ†ãƒ ã®æ•°ã ã‘é¸æŠè‚¢ã‚’è¡¨ç¤º
 					for (int i = 0;i<mItems.size();i++)
 					{
 						auto name = mItems[i].name;
 						auto type = mItems[i].type;
 						auto val = mItems[i].value;
 
-						//	ƒAƒCƒeƒ€‚ÌˆÄ“àƒeƒLƒXƒg•\¦
+						//	ã‚¢ã‚¤ãƒ†ãƒ ã®æ¡ˆå†…ãƒ†ã‚­ã‚¹ãƒˆè¡¨ç¤º
 						std::string text = { "[" + std::to_string(i + 1) + "]" + name };
 						renderer->AddText(text);
 						
@@ -234,17 +234,17 @@ namespace System {
 
 		
 		}
-		//	ƒAƒCƒeƒ€‘I‘ğ
+		//	ã‚¢ã‚¤ãƒ†ãƒ é¸æŠ
 		else if (mSelect == System::SelectState::ItemSelect) {
 
 			for (int i = 0; i < mItems.size(); i++)
 			{
-				//	‘ÎÛ‚ÌƒL[‚ª“ü—Í‚³‚ê‚Ä‚¢‚é‚©
-				//	‚P‚ÌƒL[‚ª49”Ô‚È‚Ì‚ÅAÀ”’l‚ğ‘«‚µ‚Äİ’è
+				//	å¯¾è±¡ã®ã‚­ãƒ¼ãŒå…¥åŠ›ã•ã‚Œã¦ã„ã‚‹ã‹
+				//	ï¼‘ã®ã‚­ãƒ¼ãŒ49ç•ªãªã®ã§ã€å®Ÿæ•°å€¤ã‚’è¶³ã—ã¦è¨­å®š
 				if (System::KeyInput::IsDown(49 + i))
 				{
 					
-					//	ƒAƒCƒeƒ€‚Ìg—p
+					//	ã‚¢ã‚¤ãƒ†ãƒ ã®ä½¿ç”¨
 					if (mItems[i].type == ItemType::HealHP) {
 //						pStatus.hp += mItems[i].value;
 						pStatus.HpHeal(mItems[i].value);
@@ -256,10 +256,10 @@ namespace System {
 						renderer->AddText(mItems[i].name + " used! +" + std::to_string(mItems[i].value) + " MP");
 					}
 
-					//	g—p‚µ‚½ƒAƒCƒeƒ€‚ğíœ
+					//	ä½¿ç”¨ã—ãŸã‚¢ã‚¤ãƒ†ãƒ ã‚’å‰Šé™¤
 					mItems.erase(mItems.begin() + i);
 
-					//	ƒtƒ‰ƒOŠÇ—
+					//	ãƒ•ãƒ©ã‚°ç®¡ç†
 					mSelect = SelectState::ActionSelect;
 					isActionTaken = true;
 
@@ -272,9 +272,9 @@ namespace System {
 
 		renderer->Render();
 
-		// s“®Š®—¹Œã
+		// è¡Œå‹•å®Œäº†å¾Œ
 		if (isActionTaken) {
-			// “G‚Ì‘S–Åƒ`ƒFƒbƒN
+			// æ•µã®å…¨æ»…ãƒã‚§ãƒƒã‚¯
 			bool allDead = true;
 			for (auto e : mEnemyParty) {
 				if (reg.get<Component::CharactorStatusComp>(e).hp > 0) {
@@ -284,7 +284,7 @@ namespace System {
 			}
 
 			if (allDead) {
-				mState = GameState::BattleResult; // Ÿ—˜
+				mState = GameState::BattleResult; // å‹åˆ©
 				renderer->ClearConsole();
 				renderer->ClearText();
 				renderer->AddText("Battle Clear!");
@@ -294,10 +294,10 @@ namespace System {
 			}
 			else {
 				mNeedRedraw = true;
-				mState = GameState::EnemyTurn; // “G‚Ìƒ^[ƒ“‚Ö
+				mState = GameState::EnemyTurn; // æ•µã®ã‚¿ãƒ¼ãƒ³ã¸
 			}
 #ifdef DEBUG_SLEEP
-			//	‚·‚®‚ÉØ‚è‘Ö‚í‚Á‚½‚ç‚í‚©‚è‚É‚­‚¢‚Ì‚Å~‚ß‚Ü‚·‚Ë
+			//	ã™ãã«åˆ‡ã‚Šæ›¿ã‚ã£ãŸã‚‰ã‚ã‹ã‚Šã«ãã„ã®ã§æ­¢ã‚ã¾ã™ã­
 			std::this_thread::sleep_for(std::chrono::seconds(1));
 #endif // DEBUG_SLEEP
 
@@ -316,12 +316,12 @@ namespace System {
 			renderer->AddText("");
 			renderer->AddText("Enemy Turn...");
 
-			// ‘S‚Ä‚Ì“G
+			// å…¨ã¦ã®æ•µ
 			for (auto enemyEntity : mEnemyParty) {
 				auto& eStatus = reg.get<Component::CharactorStatusComp>(enemyEntity);
 				if (eStatus.hp <= 0) continue;
 
-				// ƒ^[ƒQƒbƒg
+				// ã‚¿ãƒ¼ã‚²ãƒƒãƒˆ
 				entt::entity target = entt::null;
 				for (auto p : mPlayerParty) {
 					if (reg.get<Component::CharactorStatusComp>(p).hp > 0) {
@@ -336,7 +336,7 @@ namespace System {
 				}
 
 
-				// UŒ‚
+				// æ”»æ’ƒ
 				auto& pStatus = reg.get<Component::CharactorStatusComp>(target);
 				int damage = eStatus.FinalStasuts.ATK - pStatus.FinalStasuts.DEF / 2;
 				if (damage < 1) { damage = 1; }
@@ -360,7 +360,7 @@ namespace System {
 		if (System::KeyInput::IsDown(VK_RETURN)) {
 			mEnemyActed = false;
 
-			// ¶‘¶ƒ`ƒFƒbƒN
+			// ç”Ÿå­˜ãƒã‚§ãƒƒã‚¯
 			bool playerAlive = false;
 			for (auto p : mPlayerParty) {
 				if (reg.get<Component::CharactorStatusComp>(p).hp > 0)
