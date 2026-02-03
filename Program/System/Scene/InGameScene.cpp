@@ -13,6 +13,11 @@
 #include <thread>
 #include <chrono>
 
+#ifdef _DEBUG
+//#define DEBUG_SLEEP
+#endif // _DEBUG
+
+
 namespace System {
 
 	std::string InGameScene::GetName() const { return "InGameScene"; }
@@ -61,8 +66,8 @@ namespace System {
 			EnemyTurn();
 			break;
 		case GameState::BattleResult:
-			renderer->AddText("Battle Clear!");
-			renderer->AddText("[Enter] Next Floor");
+			//renderer->AddText("Battle Clear!");
+			//renderer->AddText("[Enter] Next Floor");
 			if (System::KeyInput::IsDown(VK_RETURN)) {
 				renderer->ClearText();
 				renderer->ClearConsole();
@@ -103,7 +108,8 @@ namespace System {
 		mEnemyParty = Charactors::EnemyFactory::CreateFloorEnemies(reg, floorIndex);
 
 		Graphics::Renderer::GetInstance()->AddText("Enemies appeared!");
-
+		Graphics::Renderer::GetInstance()->Render();
+		Graphics::Renderer::GetInstance()->ClearText();
 	}
 
 	void InGameScene::PlayerTurn() {
@@ -163,6 +169,7 @@ namespace System {
 			renderer->AddText("");
 			renderer->AddText("[1] Attack  [2] Magic(5MP)  [3] Item");
 			renderer->Render();
+			renderer->ClearText();
 
 			mNeedRedraw = false;
 		}
@@ -228,14 +235,21 @@ namespace System {
 
 			if (allDead) {
 				mState = GameState::BattleResult; // Ÿ—˜
+				renderer->ClearConsole();
+				renderer->ClearText();
+				renderer->AddText("Battle Clear!");
+				renderer->AddText("[Enter] Next Floor");
+				renderer->Render();
+				mNeedRedraw = true;
 			}
 			else {
 				mNeedRedraw = true;
 				mState = GameState::EnemyTurn; // “G‚Ìƒ^[ƒ“‚Ö
 			}
-
+#ifdef DEBUG_SLEEP
 			//	‚·‚®‚ÉØ‚è‘Ö‚í‚Á‚½‚ç‚í‚©‚è‚É‚­‚¢‚Ì‚Å~‚ß‚Ü‚·‚Ë
-			std::this_thread::sleep_for(std::chrono::seconds(2));
+			std::this_thread::sleep_for(std::chrono::seconds(1));
+#endif // DEBUG_SLEEP
 
 		}
 
