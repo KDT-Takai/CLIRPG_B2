@@ -8,7 +8,7 @@
   <a href="https://github.com/KDT-Takai/CLIRPG_B2/issues">
     <img alt="Issues" src="https://img.shields.io/github/issues/anuraghazra/github-readme-stats?color=0088ff" />
   </a>
-  <a href="[https://github.com/anuraghazra/github-readme-stats/pulls](https://github.com/KDT-Takai/CLIRPG_B2/pulls)">
+  <a href="https://github.com/KDT-Takai/CLIRPG_B2/pulls">
     <img alt="GitHub pull requests" src="https://img.shields.io/github/issues-pr/anuraghazra/github-readme-stats?color=0088ff" />
   </a>
 </p>
