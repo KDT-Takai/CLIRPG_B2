@@ -10,6 +10,9 @@
 #include "SceneManager.hpp"
 #include "TitleScene.hpp"
 
+#include <thread>
+#include <chrono>
+
 namespace System {
 
 	std::string InGameScene::GetName() const { return "InGameScene"; }
@@ -230,7 +233,13 @@ namespace System {
 				mNeedRedraw = true;
 				mState = GameState::EnemyTurn; // “G‚Ìƒ^[ƒ“‚Ö
 			}
+
+			//	‚·‚®‚ÉØ‚è‘Ö‚í‚Á‚½‚ç‚í‚©‚è‚É‚­‚¢‚Ì‚Å~‚ß‚Ü‚·‚Ë
+			std::this_thread::sleep_for(std::chrono::seconds(2));
+
 		}
+
+
 	}
 
 	void InGameScene::EnemyTurn() {
@@ -239,6 +248,9 @@ namespace System {
 
 		if (!mEnemyActed) {
 			renderer->ClearText();
+
+			renderer->AddText("");
+			renderer->AddText("Enemy Turn...");
 
 			// ‘S‚Ä‚Ì“G
 			for (auto enemyEntity : mEnemyParty) {
@@ -259,6 +271,7 @@ namespace System {
 					return;
 				}
 
+
 				// UŒ‚
 				auto& pStatus = reg.get<Component::CharactorStatusComp>(target);
 				int damage = eStatus.FinalStasuts.ATK - pStatus.FinalStasuts.DEF / 2;
@@ -272,9 +285,8 @@ namespace System {
 				);
 			}
 
-			renderer->AddText("");
-			renderer->AddText("Enemy Turn...");
 			renderer->AddText("(Press Enter)");
+			renderer->AddText("");
 			renderer->Render();
 
 			mEnemyActed = true;
