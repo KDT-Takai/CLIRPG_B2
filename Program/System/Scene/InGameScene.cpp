@@ -106,6 +106,7 @@ namespace System {
 
 	}
 
+	//	プレイヤーターン
 	void InGameScene::PlayerTurn() {
 		auto* renderer = Graphics::Renderer::GetInstance();
 		auto& reg = System::EntityManager::GetInstance()->GetRegistry();
@@ -172,45 +173,92 @@ namespace System {
 		auto& pStatus = reg.get<Component::CharactorStatusComp>(activePlayer);
 		auto& eStatus = reg.get<Component::CharactorStatusComp>(activeEnemy);
 
-		if (System::KeyInput::IsDown('1')) { // 通常攻撃
-			int damage = pStatus.FinalStasuts.ATK - eStatus.FinalStasuts.DEF / 2;
-			if (damage < 1) { damage = 1; }
+		//	選択段階分岐
+		if(mSelect == System::SelectState::ActionSelect){
 
-			eStatus.Damage(damage);
-			renderer->AddText("Atk! Dealt " + std::to_string(damage) + " dmg.");
-			isActionTaken = true;
-		}
-		else if (System::KeyInput::IsDown('2')) { // 魔法
-			if (pStatus.mp >= 5) {
-				pStatus.mp -= 5;
-				int damage = pStatus.FinalStasuts.MAG;
+			//	通常攻撃
+			if (System::KeyInput::IsDown('1')) { // 通常攻撃
+				int damage = pStatus.FinalStasuts.ATK - eStatus.FinalStasuts.DEF / 2;
+				if (damage < 1) { damage = 1; }
+
 				eStatus.Damage(damage);
-				renderer->AddText("Magic! Dealt " + std::to_string(damage) + " dmg.");
+				renderer->AddText("Atk! Dealt " + std::to_string(damage) + " dmg.");
 				isActionTaken = true;
 			}
-			else {
-				renderer->AddText("Not enough MP!");
+			//	魔法の使用
+			else if (System::KeyInput::IsDown('2')) { // 魔法
+				if (pStatus.mp >= 5) {
+					pStatus.mp -= 5;
+					int damage = pStatus.FinalStasuts.MAG;
+					eStatus.Damage(damage);
+					renderer->AddText("Magic! Dealt " + std::to_string(damage) + " dmg.");
+					isActionTaken = true;
+				}
+				else {
+					renderer->AddText("Not enough MP!");
+				}
 			}
+			//	アイテムの使用
+			else if (System::KeyInput::IsDown('3')) {
+
+				//	アイテム残量確認
+				if (!mItems.empty()) {
+
+					//	アイテムの数だけ選択肢を表示
+					for (int i = 0;i<mItems.size();i++)
+					{
+						auto name = mItems[i].name;
+						auto type = mItems[i].type;
+						auto val = mItems[i].value;
+
+						//	アイテムの案内テキスト表示
+						std::string text = { "[" + std::to_string(i + 1) + "]" + name };
+						renderer->AddText(text);
+						
+					}
+
+				//	renderer->AddText()
+					mSelect = SelectState::ItemSelect;
+				}
+				else {
+					renderer->AddText("No items!");
+				}
+			}
+
+		
 		}
-		else if (System::KeyInput::IsDown('3')) {
-			if (!mItems.empty()) {
-				auto& item = mItems.front();
+		//	アイテム選択
+		else if (mSelect == System::SelectState::ItemSelect) {
 
-				if (item.type == ItemType::HealHP) {
-					pStatus.hp += item.value;
-					renderer->AddText(item.name + " used! +" + std::to_string(item.value) + " HP");
-				}
-				else if (item.type == ItemType::HealMP) {
-					pStatus.mp += item.value;
-					renderer->AddText(item.name + " used! +" + std::to_string(item.value) + " MP");
+			for (int i = 0; i < mItems.size(); i++)
+			{
+				//	対象のキーが入力されているか
+				//	１のキーが49番なので、実数値を足して設定
+				if (System::KeyInput::IsDown(49 + i))
+				{
+					
+					//	アイテムの使用
+					if (mItems[i].type == ItemType::HealHP) {
+						pStatus.hp += mItems[i].value;
+						renderer->AddText(mItems[i].name + " used! +" + std::to_string(mItems[i].value) + " HP");
+					}
+					else if (mItems[i].type == ItemType::HealMP) {
+						pStatus.mp += mItems[i].value;
+						renderer->AddText(mItems[i].name + " used! +" + std::to_string(mItems[i].value) + " MP");
+					}
+
+					//	使用したアイテムを削除
+					mItems.erase(mItems.begin() + i);
+
+					//	フラグ管理
+					mSelect = SelectState::ActionSelect;
+					isActionTaken = true;
+
+					break;
 				}
 
-				mItems.erase(mItems.begin());
-				isActionTaken = true;
 			}
-			else {
-				renderer->AddText("No items!");
-			}
+
 		}
 
 		renderer->Render();

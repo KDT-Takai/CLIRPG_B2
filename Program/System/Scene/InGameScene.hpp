@@ -15,6 +15,13 @@ namespace System {
 		GameOver
 	};
 
+	//	入力の選択状態管理用
+	enum class SelectState
+	{
+		ActionSelect,		//	行動選択
+		ItemSelect,			//	アイテム選択
+	};
+
 	class InGameScene final : public IScene {
 	public:
 		std::string GetName() const override;
@@ -34,13 +41,14 @@ namespace System {
 		std::vector<entt::entity> mPlayerParty;
 		// 敵パーティ
 		std::vector<entt::entity> mEnemyParty;
-
+		//	アイテム
 		std::vector<Item> mItems;
 		
 		entt::entity mGameMngEntity = entt::null;
 		GameState mState = GameState::PlayerTurn;
+		SelectState mSelect = SelectState::ActionSelect;
 
-		int mPrevFloor = 0;
+		int mPrevFloor = 0;	
 		bool mNeedRedraw = true;
 		bool mEnemyActed = false;
 		bool mGameOverDrawn = false;
