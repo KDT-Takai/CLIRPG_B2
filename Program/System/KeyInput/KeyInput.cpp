@@ -1,8 +1,9 @@
 #include "KeyInput.h"
 namespace System {
-      
+	//　静的メンバ変数の定義
     std::array<bool, KeyInput::KEY_NUM> KeyInput::mNow = {};
     std::array<bool, KeyInput::KEY_NUM> KeyInput::mPrev = {};
+	// キー入力状態の更新
     void System::KeyInput::Update() {
         mPrev = mNow;
         for (int i = 0; i < KEY_NUM; i++) {

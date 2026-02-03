@@ -13,63 +13,80 @@
 #include <thread>
 #include <chrono>
 
-
+// デバッグ用スリープ有効化
 #define DEBUG_SLEEP
 
 
 namespace System {
 
+	// インゲームシーンの名前の取得
 	std::string InGameScene::GetName() const { return "InGameScene"; }
-
+	//	インゲームシーンの初期化の更新
 	void InGameScene::Initialize() {
+		//　初期化処理
 		auto* renderer = Graphics::Renderer::GetInstance();
 
+		//　画面クリア
 		renderer->ClearText();
+		//　画面表示
 		renderer->AddText("InGameScene Start");
 		renderer->Render();
+		//　画面クリア
 		renderer->ClearText();
-
+		//　エンティティマネージャーの初期化
 		System::EntityManager::GetInstance()->Create();
+		//　階層システムの登録
 		auto& reg = System::EntityManager::GetInstance()->GetRegistry();
 
-		//// プレイヤー生成
+		// プレイヤー生成
 		mPlayerParty.clear();
 		auto hero = Charactors::PlayerFactory::CreatePlayer(reg, 0);
 		mPlayerParty.push_back(hero);
 
-		//// 階層管理用エンティティ作成
+		// 階層管理用エンティティ作成
 		mGameMngEntity = System::EntityManager::GetInstance()->CreateLocalEntity();
 		reg.emplace<Component::HierarchyComponent>(mGameMngEntity, 1, 10);
 
-		//// 初期設定
+		// 初期設定
 		mPrevFloor = 1;
 		mEnemyParty.clear();
 		mState = GameState::PlayerTurn;
 		SpawnEnemy();
 
+		//	アイテム初期化
 		mItems.push_back({ "Potion", ItemType::HealHP, 30 });
 		mItems.push_back({ "Ether", ItemType::HealMP, 10 });
 
 	}
 
+	//	インゲームシーンの更新
 	void InGameScene::Update()
 	{
+		// 更新処理
 		auto* renderer = Graphics::Renderer::GetInstance();
+		// キー入力更新
 		System::KeyInput::Update();
+
+		// 状態分岐
 		switch (mState)
 		{
-		case GameState::PlayerTurn:
+		case GameState::PlayerTurn:		// プレイヤーターン
+			//　プレイヤーターン処理
 			PlayerTurn();
 			break;
-		case GameState::EnemyTurn:
+		case GameState::EnemyTurn:		// 敵ターン
+			//　敵ターン処理
 			EnemyTurn();
 			break;
-		case GameState::BattleResult:
+		case GameState::BattleResult:	// 戦闘結果
 			//renderer->AddText("Battle Clear!");
 			//renderer->AddText("[Enter] Next Floor");
+			// キー入力の確認
 			if (System::KeyInput::IsDown(VK_RETURN)) {
+				//　次のフロアへ
 				renderer->ClearText();
 				renderer->ClearConsole();
+				// フロアレベル更新
 				auto& reg = System::EntityManager::GetInstance()->GetRegistry();
 				auto& hierarchy = reg.get<Component::HierarchyComponent>(mGameMngEntity);
 
@@ -80,12 +97,13 @@ namespace System {
 				mState = GameState::PlayerTurn;
 			}
 		break;
-		case GameState::GameOver:
+		case GameState::GameOver:		// ゲームオーバー
+			// ゲームオーバー表示
 			if (!mGameOverDrawn) {
-				renderer->ClearText();
-				renderer->AddText("Game Over");
-				renderer->Render();
-				mGameOverDrawn = true;
+				renderer->ClearText();			//	画面クリア
+				renderer->AddText("Game Over");	//	ゲームオーバーメッセージ
+				renderer->Render();				//	画面描画
+				mGameOverDrawn = true;			//	フラグ管理
 			}
 			break;
 		}
@@ -93,6 +111,7 @@ namespace System {
 		//renderer->Render();
 	}
 
+	//	敵の生成
 	void InGameScene::SpawnEnemy() {
 		auto& reg = System::EntityManager::GetInstance()->GetRegistry();
 
@@ -106,6 +125,7 @@ namespace System {
 		int floorIndex = mPrevFloor - 1;
 		mEnemyParty = Charactors::EnemyFactory::CreateFloorEnemies(reg, floorIndex);
 
+		//	敵出現メッセージ
 		Graphics::Renderer::GetInstance()->AddText("Enemies appeared!");
 		Graphics::Renderer::GetInstance()->Render();
 		Graphics::Renderer::GetInstance()->ClearText();
@@ -113,12 +133,15 @@ namespace System {
 
 	//	プレイヤーターン
 	void InGameScene::PlayerTurn() {
+		//　プレイヤーのターンの処理
 		auto* renderer = Graphics::Renderer::GetInstance();
 		auto& reg = System::EntityManager::GetInstance()->GetRegistry();
 
 		// 先頭プレイヤー
 		entt::entity activePlayer = entt::null;
+		// 体力がある最初の味方
 		for (auto e : mPlayerParty) {
+			// 生存確認
 			if (reg.get<Component::CharactorStatusComp>(e).hp > 0) {
 				activePlayer = e;
 				break;
@@ -146,19 +169,26 @@ namespace System {
 
 		// 画面描画
 		if (mNeedRedraw) {
+			//　画面クリア
 			renderer->ClearText();
+			//　ステータス表示
 			renderer->AddText("Floor: " + std::to_string(mPrevFloor));
 
+			//　敵表示
 			renderer->AddText("--- Enemies ---");
 			for (auto e : mEnemyParty) {
+				// 敵ステータス取得
 				auto& st = reg.get<Component::CharactorStatusComp>(e);
 				renderer->AddText(
 					st.Name + " (HP:" + std::to_string(st.hp) + ")"
 				);
 			}
 
+			//　味方表示
 			renderer->AddText("--- Players ---");
+			// 味方全員表示
 			for (auto p : mPlayerParty) {
+				// 味方ステータス取得
 				auto& st = reg.get<Component::CharactorStatusComp>(p);
 				renderer->AddText(
 					st.Name + " (HP:" + std::to_string(st.hp) +
@@ -166,11 +196,12 @@ namespace System {
 				);
 			}
 
+			//　行動選択肢表示
 			renderer->AddText("");
 			renderer->AddText("[1] Attack  [2] Magic(5MP)  [3] Item");
 			renderer->Render();
 			renderer->ClearText();
-
+			//　描画フラグOFF
 			mNeedRedraw = false;
 		}
 
@@ -184,15 +215,17 @@ namespace System {
 
 			//	通常攻撃
 			if (System::KeyInput::IsDown('1')) { // 通常攻撃
+				// 攻撃処理
 				int damage = pStatus.FinalStasuts.ATK - eStatus.FinalStasuts.DEF / 2;
 				if (damage < 1) { damage = 1; }
-
+				// ダメージ適用
 				eStatus.Damage(damage);
 				renderer->AddText("Atk! Dealt " + std::to_string(damage) + " dmg.");
 				isActionTaken = true;
 			}
 			//	魔法の使用
 			else if (System::KeyInput::IsDown('2')) { // 魔法
+				//	MP確認
 				if (pStatus.mp >= 5) {
 					pStatus.mp -= 5;
 					int damage = pStatus.FinalStasuts.MAG;
@@ -200,6 +233,7 @@ namespace System {
 					renderer->AddText("Magic! Dealt " + std::to_string(damage) + " dmg.");
 					isActionTaken = true;
 				}
+				//	MP不足時
 				else {
 					renderer->AddText("Not enough MP!");
 				}
@@ -213,6 +247,7 @@ namespace System {
 					//	アイテムの数だけ選択肢を表示
 					for (int i = 0;i<mItems.size();i++)
 					{
+						//	アイテム情報取得
 						auto name = mItems[i].name;
 						auto type = mItems[i].type;
 						auto val = mItems[i].value;
@@ -224,8 +259,10 @@ namespace System {
 					}
 
 				//	renderer->AddText()
+					//	選択状態をアイテム選択へ変更
 					mSelect = SelectState::ItemSelect;
 				}
+				//	アイテムが無い場合
 				else {
 					renderer->AddText("No items!");
 				}
@@ -249,8 +286,10 @@ namespace System {
 						pStatus.HpHeal(mItems[i].value);
 						renderer->AddText(mItems[i].name + " used! +" + std::to_string(mItems[i].value) + " HP");
 					}
+					//	MP回復アイテム
 					else if (mItems[i].type == ItemType::HealMP) {
 //						pStatus.mp += mItems[i].value;
+						// MP回復関数使用
 						pStatus.MpHeal(mItems[i].value);
 						renderer->AddText(mItems[i].name + " used! +" + std::to_string(mItems[i].value) + " MP");
 					}
@@ -268,7 +307,7 @@ namespace System {
 			}
 
 		}
-
+		//	画面更新
 		renderer->Render();
 
 		// 行動完了後
@@ -282,17 +321,19 @@ namespace System {
 				}
 			}
 
+			//　勝利と敵のターンの分岐
 			if (allDead) {
 				mState = GameState::BattleResult; // 勝利
-				renderer->ClearConsole();
-				renderer->ClearText();
-				renderer->AddText("Battle Clear!");
-				renderer->AddText("[Enter] Next Floor");
-				renderer->Render();
-				mNeedRedraw = true;
+				renderer->ClearConsole();		//	画面クリア
+				renderer->ClearText();			//	テキストクリア
+				renderer->AddText("Battle Clear!");	//	勝利メッセージ
+				renderer->AddText("[Enter] Next Floor");	//	次のフロア案内
+				renderer->Render();				//	画面描画
+				mNeedRedraw = true;				//	次のフロアへ行くまで描画維持
 			}
+			// 敵生存時
 			else {
-				mNeedRedraw = true;
+				mNeedRedraw = true;			//	次のターン描画フラグ
 				mState = GameState::EnemyTurn; // 敵のターンへ
 			}
 #ifdef DEBUG_SLEEP
@@ -305,13 +346,18 @@ namespace System {
 
 	}
 
+	//	敵ターン
 	void InGameScene::EnemyTurn() {
+		//　敵のターンの処理
 		auto* renderer = Graphics::Renderer::GetInstance();
 		auto& reg = System::EntityManager::GetInstance()->GetRegistry();
 
+		//	敵の行動処理
 		if (!mEnemyActed) {
+			//　画面クリア
 			renderer->ClearText();
 
+			//　追加テキスト
 			renderer->AddText("");
 			renderer->AddText("Enemy Turn...");
 
@@ -322,13 +368,16 @@ namespace System {
 
 				// ターゲット
 				entt::entity target = entt::null;
+				// 生存している味方からターゲット選択
 				for (auto p : mPlayerParty) {
+					// 生存確認
 					if (reg.get<Component::CharactorStatusComp>(p).hp > 0) {
 						target = p;
 						break;
 					}
 				}
 
+				// 味方全滅
 				if (target == entt::null) {
 					mState = GameState::GameOver;
 					return;
@@ -340,6 +389,7 @@ namespace System {
 				int damage = eStatus.FinalStasuts.ATK - pStatus.FinalStasuts.DEF / 2;
 				if (damage < 1) { damage = 1; }
 
+				// ダメージ適用
 				pStatus.Damage(damage);
 				renderer->AddText(
 					eStatus.Name + " attacks " +
@@ -348,14 +398,16 @@ namespace System {
 				);
 			}
 
+			//　行動終了案内
 			renderer->AddText("(Press Enter)");
 			renderer->AddText("");
 			renderer->Render();
 
+			//　行動済みフラグON
 			mEnemyActed = true;
 			return;
 		}
-
+		//　行動終了後、Enterキー待ち
 		if (System::KeyInput::IsDown(VK_RETURN)) {
 			mEnemyActed = false;
 
@@ -366,15 +418,18 @@ namespace System {
 					playerAlive = true;
 			}
 
+			//　状態遷移
 			if (!playerAlive) {
 				mState = GameState::GameOver;
 			}
+			// 味方生存時
 			else {
 				mState = GameState::PlayerTurn;
 			}
 		}
 	}
 
+	//	インゲームシーンの終了処理
 	void InGameScene::Finalize() {
 		System::EntityManager::GetInstance()->AllClear();
 	}
