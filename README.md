@@ -1,18 +1,3 @@
-<p align="center">
-  <a href="https://github.com/KDT-Takai/CLIRPG_B2/actions">
-    <img alt="Tests Passing" src="https://github.com/anuraghazra/github-readme-stats/workflows/Test/badge.svg" />
-  </a>
-  <a href="https://github.com/KDT-Takai/CLIRPG_B2/pulse">
-    <img alt="GitHub Contributors" src="https://img.shields.io/github/contributors/anuraghazra/github-readme-stats" />
-  </a>
-  <a href="https://github.com/KDT-Takai/CLIRPG_B2/issues">
-    <img alt="Issues" src="https://img.shields.io/github/issues/anuraghazra/github-readme-stats?color=0088ff" />
-  </a>
-  <a href="https://github.com/KDT-Takai/CLIRPG_B2/pulls">
-    <img alt="GitHub pull requests" src="https://img.shields.io/github/issues-pr/anuraghazra/github-readme-stats?color=0088ff" />
-  </a>
-</p>
- 
 # プロジェクト名
 CLIRPG_B2_
 
