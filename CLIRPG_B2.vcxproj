@@ -17,7 +17,6 @@
       <Configuration>Release</Configuration>
       <Platform>x64</Platform>
     </ProjectConfiguration>
-
   </ItemGroup>
   <PropertyGroup Label="Globals">
     <VCProjectVersion>17.0</VCProjectVersion>
@@ -53,37 +52,36 @@
     <WholeProgramOptimization>true</WholeProgramOptimization>
     <CharacterSet>Unicode</CharacterSet>
   </PropertyGroup>
-
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.props" />
   <ImportGroup Label="ExtensionSettings">
   </ImportGroup>
-  <ImportGroup Label="Shared" >
+  <ImportGroup Label="Shared">
   </ImportGroup>
-    <ImportGroup Label="PropertySheets" Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
-      <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
-    </ImportGroup>
-    <ImportGroup Label="PropertySheets" Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
-      <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
-    </ImportGroup>
-    <ImportGroup Label="PropertySheets" Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
-      <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
-    </ImportGroup>
-    <ImportGroup Label="PropertySheets" Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
-      <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
-    </ImportGroup>
-
+  <ImportGroup Label="PropertySheets" Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
+    <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
+  </ImportGroup>
+  <ImportGroup Label="PropertySheets" Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
+    <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
+  </ImportGroup>
+  <ImportGroup Label="PropertySheets" Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
+    <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
+  </ImportGroup>
+  <ImportGroup Label="PropertySheets" Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
+    <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
+  </ImportGroup>
   <PropertyGroup Label="UserMacros" />
-
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
     <ClCompile>
       <WarningLevel>Level3</WarningLevel>
       <SDLCheck>true</SDLCheck>
       <PreprocessorDefinitions>WIN32;_DEBUG;_CONSOLE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <ConformanceMode>true</ConformanceMode>
+      <AdditionalIncludeDirectories>Program;Source;Plugin;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <LanguageStandard>stdcpp20</LanguageStandard>
     </ClCompile>
     <Link>
       <SubSystem>Console</SubSystem>
-       <GenerateDebugInformation>true</GenerateDebugInformation>
+      <GenerateDebugInformation>true</GenerateDebugInformation>
     </Link>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
@@ -94,10 +92,12 @@
       <SDLCheck>true</SDLCheck>
       <PreprocessorDefinitions>WIN32;NDEBUG;_CONSOLE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <ConformanceMode>true</ConformanceMode>
+      <AdditionalIncludeDirectories>Program;Source;Plugin;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <LanguageStandard>stdcpp20</LanguageStandard>
     </ClCompile>
     <Link>
       <SubSystem>Console</SubSystem>
-       <GenerateDebugInformation>true</GenerateDebugInformation>
+      <GenerateDebugInformation>true</GenerateDebugInformation>
     </Link>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
@@ -106,10 +106,12 @@
       <SDLCheck>true</SDLCheck>
       <PreprocessorDefinitions>_DEBUG;_CONSOLE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <ConformanceMode>true</ConformanceMode>
+      <AdditionalIncludeDirectories>Program;Source;Plugin;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <LanguageStandard>stdcpp20</LanguageStandard>
     </ClCompile>
     <Link>
       <SubSystem>Console</SubSystem>
-       <GenerateDebugInformation>true</GenerateDebugInformation>
+      <GenerateDebugInformation>true</GenerateDebugInformation>
     </Link>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
@@ -120,14 +122,60 @@
       <SDLCheck>true</SDLCheck>
       <PreprocessorDefinitions>NDEBUG;_CONSOLE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <ConformanceMode>true</ConformanceMode>
+      <AdditionalIncludeDirectories>Program;Source;Plugin;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <LanguageStandard>stdcpp20</LanguageStandard>
     </ClCompile>
     <Link>
       <SubSystem>Console</SubSystem>
-       <GenerateDebugInformation>true</GenerateDebugInformation>
+      <GenerateDebugInformation>true</GenerateDebugInformation>
     </Link>
   </ItemDefinitionGroup>
-
-  <ItemGroup></ItemGroup>
+  <ItemGroup>
+    <ClCompile Include="Program\Graphics\Renderer.cpp" />
+    <ClCompile Include="Program\System\Entity\Manager\EntityManager.cpp" />
+    <ClCompile Include="Program\System\GameManager\GameManager.cpp" />
+    <ClCompile Include="Program\main.cpp" />
+    <ClCompile Include="Program\System\KeyInput\KeyInput.cpp" />
+    <ClCompile Include="Program\System\Scene\ClearScene.cpp" />
+    <ClCompile Include="Program\System\Scene\InGameScene.cpp" />
+    <ClCompile Include="Program\System\Scene\SceneManager.cpp" />
+    <ClCompile Include="Program\System\Scene\TitleScene.cpp" />
+    <ClCompile Include="Program\System\SystemManager\SystemManager.cpp" />
+    <ClCompile Include="Source\Chara\EnemyDataTable\EnemyDataTable.cpp" />
+    <ClCompile Include="Source\Chara\Enemy\CreateEnemy.cpp" />
+    <ClCompile Include="Source\Chara\Playerdatatable\Playerdatatable.cpp" />
+    <ClCompile Include="Source\Chara\Player\CreatePlayer.cpp" />
+    <ClCompile Include="Source\Hierarchy\System\HierarchySystem.cpp" />
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="Plugin\entt\entt.hpp" />
+    <ClInclude Include="Program\Graphics\Renderer.hpp" />
+    <ClInclude Include="Program\System\Entity\Manager\EntityManager.hpp" />
+    <ClInclude Include="Program\System\Entity\ObjectTag\ObjectTag.hpp" />
+    <ClInclude Include="Program\System\GameManager\GameManager.hpp" />
+    <ClInclude Include="Program\System\IScene\IScene.hpp" />
+    <ClInclude Include="Program\System\KeyInput\KeyInput.h" />
+    <ClInclude Include="Program\System\Scene\ClearScene.hpp" />
+    <ClInclude Include="Program\System\Scene\InGameScene.hpp" />
+    <ClInclude Include="Program\System\Scene\SceneManager.hpp" />
+    <ClInclude Include="Program\System\Scene\TitleScene.hpp" />
+    <ClInclude Include="Program\System\Singleton\Singleton.hpp" />
+    <ClInclude Include="Program\System\SystemManager\Base\ISystem.hpp" />
+    <ClInclude Include="Program\System\SystemManager\SystemManager.hpp" />
+    <ClInclude Include="Source\Chara\EnemyDataTable\EnemyDataTable.h" />
+    <ClInclude Include="Source\Chara\Enemy\CreateEnemy.h" />
+    <ClInclude Include="Source\Chara\Playerdatatable\Playerdatatable.h" />
+    <ClInclude Include="Source\Chara\Player\CreatePlayer.h" />
+    <ClInclude Include="Source\Chara\Status\CharactorStatusComponent.h" />
+    <ClInclude Include="Source\Chara\Tag\CharactorTags.h" />
+    <ClInclude Include="Source\Hierarchy\HierarchyComponent.hpp" />
+    <ClInclude Include="Source\Hierarchy\System\HierarchySystem.hpp" />
+    <ClInclude Include="Source\Item\Item.h" />
+    <ClInclude Include="Source\Scene\Event\SceneEventComponent.hpp" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Document\README.md" />
+  </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
   </ImportGroup>
