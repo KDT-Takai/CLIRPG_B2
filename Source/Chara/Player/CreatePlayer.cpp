@@ -1,6 +1,6 @@
 #include "CreatePlayer.h"
 
-#include "../Playerdatatable/Playerdatatable.h"
+#include "../PlayerDataTable/PlayerDataTable.h"
 
 namespace Charactors
 {
