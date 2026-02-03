@@ -141,6 +141,10 @@
     <ClCompile Include="Program\System\Scene\SceneManager.cpp" />
     <ClCompile Include="Program\System\Scene\TitleScene.cpp" />
     <ClCompile Include="Program\System\SystemManager\SystemManager.cpp" />
+    <ClCompile Include="Source\Chara\EnemyDataTable\EnemyDataTable.cpp" />
+    <ClCompile Include="Source\Chara\Enemy\CreateEnemy.cpp" />
+    <ClCompile Include="Source\Chara\Playerdatatable\Playerdatatable.cpp" />
+    <ClCompile Include="Source\Chara\Player\CreatePlayer.cpp" />
     <ClCompile Include="Source\Hierarchy\System\HierarchySystem.cpp" />
   </ItemGroup>
   <ItemGroup>
@@ -158,8 +162,15 @@
     <ClInclude Include="Program\System\Singleton\Singleton.hpp" />
     <ClInclude Include="Program\System\SystemManager\Base\ISystem.hpp" />
     <ClInclude Include="Program\System\SystemManager\SystemManager.hpp" />
+    <ClInclude Include="Source\Chara\EnemyDataTable\EnemyDataTable.h" />
+    <ClInclude Include="Source\Chara\Enemy\CreateEnemy.h" />
+    <ClInclude Include="Source\Chara\Playerdatatable\Playerdatatable.h" />
+    <ClInclude Include="Source\Chara\Player\CreatePlayer.h" />
+    <ClInclude Include="Source\Chara\Status\CharactorStatusComponent.h" />
+    <ClInclude Include="Source\Chara\Tag\CharactorTags.h" />
     <ClInclude Include="Source\Hierarchy\HierarchyComponent.hpp" />
     <ClInclude Include="Source\Hierarchy\System\HierarchySystem.hpp" />
+    <ClInclude Include="Source\Item\Item.h" />
     <ClInclude Include="Source\Scene\Event\SceneEventComponent.hpp" />
   </ItemGroup>
   <ItemGroup>
