@@ -13,7 +13,7 @@
 #include <thread>
 #include <chrono>
 
-
+// デバッグ用スリープ有効化
 #define DEBUG_SLEEP
 
 
@@ -100,10 +100,10 @@ namespace System {
 		case GameState::GameOver:		// ゲームオーバー
 			// ゲームオーバー表示
 			if (!mGameOverDrawn) {
-				renderer->ClearText();
-				renderer->AddText("Game Over");
-				renderer->Render();
-				mGameOverDrawn = true;
+				renderer->ClearText();			//	画面クリア
+				renderer->AddText("Game Over");	//	ゲームオーバーメッセージ
+				renderer->Render();				//	画面描画
+				mGameOverDrawn = true;			//	フラグ管理
 			}
 			break;
 		}
@@ -125,6 +125,7 @@ namespace System {
 		int floorIndex = mPrevFloor - 1;
 		mEnemyParty = Charactors::EnemyFactory::CreateFloorEnemies(reg, floorIndex);
 
+		//	敵出現メッセージ
 		Graphics::Renderer::GetInstance()->AddText("Enemies appeared!");
 		Graphics::Renderer::GetInstance()->Render();
 		Graphics::Renderer::GetInstance()->ClearText();
@@ -132,12 +133,15 @@ namespace System {
 
 	//	プレイヤーターン
 	void InGameScene::PlayerTurn() {
+		//　プレイヤーのターンの処理
 		auto* renderer = Graphics::Renderer::GetInstance();
 		auto& reg = System::EntityManager::GetInstance()->GetRegistry();
 
 		// 先頭プレイヤー
 		entt::entity activePlayer = entt::null;
+		// 体力がある最初の味方
 		for (auto e : mPlayerParty) {
+			// 生存確認
 			if (reg.get<Component::CharactorStatusComp>(e).hp > 0) {
 				activePlayer = e;
 				break;
@@ -173,6 +177,7 @@ namespace System {
 			//　敵表示
 			renderer->AddText("--- Enemies ---");
 			for (auto e : mEnemyParty) {
+				// 敵ステータス取得
 				auto& st = reg.get<Component::CharactorStatusComp>(e);
 				renderer->AddText(
 					st.Name + " (HP:" + std::to_string(st.hp) + ")"
@@ -181,7 +186,9 @@ namespace System {
 
 			//　味方表示
 			renderer->AddText("--- Players ---");
+			// 味方全員表示
 			for (auto p : mPlayerParty) {
+				// 味方ステータス取得
 				auto& st = reg.get<Component::CharactorStatusComp>(p);
 				renderer->AddText(
 					st.Name + " (HP:" + std::to_string(st.hp) +
@@ -194,7 +201,7 @@ namespace System {
 			renderer->AddText("[1] Attack  [2] Magic(5MP)  [3] Item");
 			renderer->Render();
 			renderer->ClearText();
-
+			//　描画フラグOFF
 			mNeedRedraw = false;
 		}
 
@@ -208,15 +215,17 @@ namespace System {
 
 			//	通常攻撃
 			if (System::KeyInput::IsDown('1')) { // 通常攻撃
+				// 攻撃処理
 				int damage = pStatus.FinalStasuts.ATK - eStatus.FinalStasuts.DEF / 2;
 				if (damage < 1) { damage = 1; }
-
+				// ダメージ適用
 				eStatus.Damage(damage);
 				renderer->AddText("Atk! Dealt " + std::to_string(damage) + " dmg.");
 				isActionTaken = true;
 			}
 			//	魔法の使用
 			else if (System::KeyInput::IsDown('2')) { // 魔法
+				//	MP確認
 				if (pStatus.mp >= 5) {
 					pStatus.mp -= 5;
 					int damage = pStatus.FinalStasuts.MAG;
@@ -224,6 +233,7 @@ namespace System {
 					renderer->AddText("Magic! Dealt " + std::to_string(damage) + " dmg.");
 					isActionTaken = true;
 				}
+				//	MP不足時
 				else {
 					renderer->AddText("Not enough MP!");
 				}
@@ -237,6 +247,7 @@ namespace System {
 					//	アイテムの数だけ選択肢を表示
 					for (int i = 0;i<mItems.size();i++)
 					{
+						//	アイテム情報取得
 						auto name = mItems[i].name;
 						auto type = mItems[i].type;
 						auto val = mItems[i].value;
@@ -248,8 +259,10 @@ namespace System {
 					}
 
 				//	renderer->AddText()
+					//	選択状態をアイテム選択へ変更
 					mSelect = SelectState::ItemSelect;
 				}
+				//	アイテムが無い場合
 				else {
 					renderer->AddText("No items!");
 				}
@@ -273,8 +286,10 @@ namespace System {
 						pStatus.HpHeal(mItems[i].value);
 						renderer->AddText(mItems[i].name + " used! +" + std::to_string(mItems[i].value) + " HP");
 					}
+					//	MP回復アイテム
 					else if (mItems[i].type == ItemType::HealMP) {
 //						pStatus.mp += mItems[i].value;
+						// MP回復関数使用
 						pStatus.MpHeal(mItems[i].value);
 						renderer->AddText(mItems[i].name + " used! +" + std::to_string(mItems[i].value) + " MP");
 					}
@@ -353,7 +368,9 @@ namespace System {
 
 				// ターゲット
 				entt::entity target = entt::null;
+				// 生存している味方からターゲット選択
 				for (auto p : mPlayerParty) {
+					// 生存確認
 					if (reg.get<Component::CharactorStatusComp>(p).hp > 0) {
 						target = p;
 						break;
