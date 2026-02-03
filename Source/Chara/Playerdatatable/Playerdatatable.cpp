@@ -1,4 +1,4 @@
-#include "Playerdatatable.h"
+#include "PlayerDataTable.h"
 
 //	Ã“Iƒƒ“ƒo•Ï”‚Ì’è‹`
 std::vector<Charactors::PlayerData> Charactors::PlayerDataTable::player = 
