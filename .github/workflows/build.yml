@@ -1,26 +1,50 @@
-name: Build Check
+name: Build & Test
 
 on:
   push:
-    branches: [ master, main ]
+    branches: [master, feature/*]
   pull_request:
-    branches: [ master, main ]
 
 jobs:
   build:
     runs-on: windows-latest
-
-    strategy:
-      matrix:
-        configuration: [Debug, Release]
-        platform: [x64, x86]
-
+    
     steps:
-    - name: Checkout
-      uses: actions/checkout@v4
+      - uses: actions/checkout@v4
+        
+      - name: Setup MSBuild
+        uses: microsoft/setup-msbuild@v2
+        
+      - name: Build Debug
+        run: |
+          msbuild CLIRPG_B2.sln \
+            /p:Configuration=Debug \
+            /m:4 \
+            /verbosity:minimal
+      
+      - name: Run Tests (if exists)
+        run: |
+          if (Test-Path "tests") {
+            vstest.console.exe tests/CLIRPG_B2_UnitTests.dll
+          } else {
+            Write-Host "No test directory found, skipping..."
+          }
 
-    - name: Add MSBuild to PATH
-      uses: microsoft/setup-msbuild@v2
+      - name: Build Release
+        run: |
+          msbuild CLIRPG_B2.sln \
+            /p:Configuration=Release \
+            /m:4 \
+            /verbosity:minimal
+      
+      - name: Upload Debug Build Artifacts
+        uses: actions/upload-artifact@v4
+        with:
+          name: debug-build
+          path: x64/Debug/*.exe,*.pdb
 
-    - name: Build
-      run: msbuild /m /p:Configuration=${{ matrix.configuration }} /p:Platform=${{ matrix.platform }} CLIRPG_B2.sln
+      - name: Upload Release Build Artifacts
+        uses: actions/upload-artifact@v4
+        with:
+          name: release-build
+          path: x64/Release/*.exe,*.pdb
