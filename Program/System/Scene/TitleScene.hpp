@@ -1,8 +1,8 @@
 #pragma once
 #include "System/IScene/IScene.hpp"
 
-//@ƒ^ƒCƒgƒ‹‰æ–Ê—p‚ÌƒV[ƒ“ƒNƒ‰ƒX
-//@IScene‚ğŒp³‚µSceneManager‚©‚çŠÇ—E‘JˆÚ
+//ï¿½@ï¿½^ï¿½Cï¿½gï¿½ï¿½ï¿½ï¿½Ê—pï¿½ÌƒVï¿½[ï¿½ï¿½ï¿½Nï¿½ï¿½ï¿½X
+//ï¿½@ISceneï¿½ï¿½ï¿½pï¿½ï¿½ï¿½ï¿½SceneManagerï¿½ï¿½ï¿½ï¿½Ç—ï¿½ï¿½Eï¿½Jï¿½ï¿½
 namespace System {
 	class TitleScene final : public IScene {
 	public:

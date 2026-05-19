@@ -1,44 +1,46 @@
 #pragma once
+
 #include <vector>
 #include <string>
 #include "System/Singleton/Singleton.hpp"
 
 /// <summary>
-/// 描画管理クラス
+/// Console renderer for text output.
 /// </summary>
 namespace Graphics {
 	class Renderer : public Singleton<Renderer> {
 		GENERATE_SINGLETON_BODY(Renderer)
 	public:
 		/// <summary>
-		/// コンストラクタ
+		/// Console initialization.
 		/// </summary>
 		void OnCreate() override;
 		/// <summary>
-		/// 文字列の追加
+		/// Add text to output buffer.
 		/// </summary>
 		void AddText(const std::string& text);
 		/// <summary>
-		/// 文字列の削除
+		/// Clear all text from buffer.
 		/// </summary>
 		void ClearText();
 		/// <summary>
-		/// コンソールのクリア
+		/// Clear console and render current buffer.
 		/// </summary>
 		void ClearConsole();
 		/// <summary>
-		/// 表示処理
+		/// Render buffered output to console.
 		/// </summary>
 		void Render();
 	private:
 		/// <summary>
-		/// 描画する用のテキストコレクション
+		/// Output text buffer.
 		/// </summary>
 		std::vector<std::string> mText;
-		
+
 		/// <summary>
-		/// 文字が追加された場合に表示するフラグ
+		/// Dirty flag indicating whether output needs rendering.
+		/// Uses atomic for thread-safe access.
 		/// </summary>
-		bool mIsDirty;
+		std::atomic<bool> mIsDirty{ false };
 	};
 }

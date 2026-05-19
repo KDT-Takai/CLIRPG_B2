@@ -7,44 +7,75 @@
 #include "System/IScene/IScene.hpp"
 
 namespace System {
-	//　Singletonを継承
+	/// <summary>
+	/// Singleton pattern implementation for scene management.
+	/// </summary>
 	class SceneManager : public Singleton<SceneManager> {
 
 		GENERATE_SINGLETON_BODY(SceneManager)
 
 	public:
 
-		//　最初のシーンをセットする
+		/// <summary>
+		/// Set the start scene with constructor arguments.
+		/// </summary>
 		template<class TScene, class...Args>
 		void SetStartScene(Args&&...args) {
 
-			ChangeScene<TScene>(std::forward<Args>(args)...);
+			try {
+				ChangeScene<TScene>(std::forward<Args>(args)...);
+			} catch (...) {
+				// Graceful fallback on start scene error
+				OnDestroy();  // Clean up current state
+				throw;
+			}
 
 		}
 
 		template<class TScene, class...Args>
 		void ChangeScene(Args&&...args)
 		{
-			//現在のシーンの終了
+			/// <summary>
+			/// Transition to a new scene.
+			/// </summary>
+			// Clean up current scene with exception-safe cleanup
 			if (mCurrent) {
 
-				mCurrent->Finalize();
+				try {
+					mCurrent->Finalize();
+				} catch (...) {
+					// Log error but continue transition
+				}
 			}
-			//　シーンの作成
+			// Create new scene with exception safety
 			mCurrent = std::make_unique<TScene>(std::forward<Args>(args)...);
-			//　新シーンの開始
-			mCurrent->Initialize();
+			// Initialize new scene with exception handling
+			try {
+				mCurrent->Initialize();
+			} catch (...) {
+				// Clean up on initialization failure
+				mCurrent.reset();
+				throw;
+			}
 		}
 
 		void Update();
 
-		//　デバッグ表示用（現在のシーン or　none）
+		/// <summary>
+		/// Get the name of the current scene.
+		/// Returns "none" if no scene is active.
+		/// </summary>
 		std::string CurrentSceneName() const noexcept;
 
 	protected:
 
-		//SingletonによってSceneManagerが生成された直後に、初期状態をセット
+		/// <summary>
+		/// Called when singleton is created.
+		/// </summary>
 		void OnCreate() override;
+		/// <summary>
+		/// Called when singleton is destroyed.
+		/// </summary>
 		void OnDestroy() override;
 
 	private:

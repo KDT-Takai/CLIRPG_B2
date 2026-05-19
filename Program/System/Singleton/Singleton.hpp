@@ -1,5 +1,7 @@
 #pragma once
 
+#include <memory>
+
 #ifdef GENERATE_SINGLETON_BODY
 #undef GENERATE_SINGLETON_BODY
 #endif // GENERATE_SINGLETON_BODY
@@ -11,24 +13,25 @@ virtual ~Class()noexcept = default;\
 Class(const Class&) = delete;\
 Class(Class&&) = delete;\
 Class& operator=(const Class&) = delete;\
-Class& operator=(Class&&) = delete;\
+Class& operator=(Class&&) = delete;
 
 /// <summary>
-/// シングルトンステート
+/// Singleton pattern implementation with exception safety.
 /// </summary>
 template<typename T>
 class Singleton
 {
 public:
 	/// <summary>
-	/// インスタンスの生成
+	/// Creates the singleton instance if it doesn't exist yet.
+	/// Uses make_unique for exception-safe construction.
 	/// </summary>
-	/// <returns>true:成功</returns>
+	/// <returns>true: Instance created, false: Already exists</returns>
 	static bool Create()
 	{
 		if (mInstance == nullptr)
 		{
-			mInstance = new T();
+			mInstance = std::make_unique<T>();
 			mInstance->OnCreate();
 			return true;
 		}
@@ -36,34 +39,43 @@ public:
 	}
 
 	/// <summary>
-	/// インスタンスの破棄
+	/// Releases the singleton instance.
 	/// </summary>
-	/// <returns>true:成功</returns>
 	static void Release()
 	{
 		if (mInstance != nullptr)
 		{
 			mInstance->OnDestroy();
-			delete mInstance;
+			mInstance.reset();  // Exception-safe cleanup
 			mInstance = nullptr;
 		}
 	}
 
 	/// <summary>
-	/// インスタンスの取得
+	/// Gets the singleton instance pointer.
+	/// Returns nullptr if not yet created or already released.
 	/// </summary>
-	static T* GetInstance()
+	static T* GetInstance() noexcept
 	{
-		return mInstance;
+		return mInstance.get();  // Use get() for unique_ptr access
 	}
+
+	/// <summary>
+	/// Checks if the singleton instance exists.
+	/// </summary>
+	static bool HasInstance() noexcept
+	{
+		return mInstance != nullptr;
+	}
+
 protected:
 	Singleton()noexcept = default;
 	virtual ~Singleton()noexcept = default;
 
-	virtual void OnCreate() {};
-	virtual void OnDestroy() {};
+	virtual void OnCreate() {}
+	virtual void OnDestroy() {}
 private:
-	static T* mInstance;
+	std::unique_ptr<T> mInstance;  // Exception-safe ownership
 
 	Singleton(const Singleton&) = delete;
 	Singleton(Singleton&&) = delete;
@@ -72,4 +84,4 @@ private:
 };
 
 template<typename T>
-T* Singleton<T>::mInstance = nullptr;
+std::unique_ptr<T> Singleton<T>::mInstance{ nullptr };

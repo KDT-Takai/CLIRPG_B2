@@ -1,12 +1,15 @@
 #pragma once
-#include "System/IScene/IScene.hpp"
-#include "entt/entt.hpp"
-#include "Item/Item.h"
+#include"System/IScene/IScene.hpp"
+#include"entt/entt.hpp"
+#include"Item/Item.h"
 
-//　インゲーム画面用のシーンクラス
-//　ISceneを継承しSceneManagerから管理・遷移
+/// <summary>
+/// In-game battle scene.
+/// </summary>
 namespace System {
-	// ゲームの状態管理用
+	/// <summary>
+	/// Battle state enumeration.
+	/// </summary>
 	enum class GameState {
 		PlayerTurn,
 		EnemyTurn,
@@ -15,11 +18,13 @@ namespace System {
 		GameOver
 	};
 
-	//	入力の選択状態管理用
+	/// <summary>
+	/// Selection state enumeration.
+	/// </summary>
 	enum class SelectState
 	{
-		ActionSelect,		//	行動選択
-		ItemSelect,			//	アイテム選択
+		ActionSelect,		/// Action selection
+		ItemSelect,			/// Item selection
 	};
 
 	class InGameScene final : public IScene {
@@ -30,25 +35,43 @@ namespace System {
 		void Update() override;
 		void Finalize() override;
 	private:
-		// 敵のスポーン
+		/// <summary>
+		/// Spawn enemy entities.
+		/// </summary>
 		void SpawnEnemy();
-		// プレイヤーターン
+		/// <summary>
+		/// Execute player turn logic.
+		/// </summary>
 		void PlayerTurn();
-		// 敵ターン
+		/// <summary>
+		/// Execute enemy turn logic.
+		/// </summary>
 		void EnemyTurn();
 	private:
-		// プレイヤーパーティ
+		/// <summary>
+		/// Entity registry for managing game entities.
+		/// Using entt::registry provides proper lifecycle management.
+		/// </summary>
+		entt::registry mRegistry;
+
+		/// <summary>
+		/// Player party entity IDs (for reference tracking).
+		/// </summary>
 		std::vector<entt::entity> mPlayerParty;
-		// 敵パーティ
+		/// <summary>
+		/// Enemy party entity IDs.
+		/// </summary>
 		std::vector<entt::entity> mEnemyParty;
-		//	アイテム
+		/// <summary>
+		/// Available items in the battle.
+		/// </summary>
 		std::vector<Item> mItems;
-		
+
 		entt::entity mGameMngEntity = entt::null;
 		GameState mState = GameState::PlayerTurn;
 		SelectState mSelect = SelectState::ActionSelect;
 
-		int mPrevFloor = 0;	
+		int mPrevFloor = 0;
 		bool mNeedRedraw = true;
 		bool mEnemyActed = false;
 		bool mGameOverDrawn = false;

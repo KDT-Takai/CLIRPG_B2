@@ -1,8 +1,9 @@
-#include "System/Scene/TitleScene.hpp"
-#include "System/KeyInput/KeyInput.h"
-#include "System/Scene/SceneManager.hpp"
-#include "System/Scene/InGameScene.hpp"
-#include "Graphics/Renderer.hpp"
+#pragma once
+#include"System/Scene/TitleScene.hpp"
+#include"System/KeyInput/KeyInput.h"
+#include"System/Scene/SceneManager.hpp"
+#include"System/Scene/InGameScene.hpp"
+#include"Graphics/Renderer.hpp"
 
 namespace System {
 	std::string TitleScene::GetName() const { return "TitleScene"; }
@@ -15,17 +16,31 @@ namespace System {
 		renderer->AddText("Push To Enter");
 
 	}
-	void TitleScene::Update() {
+
+	/// <summary>
+	/// Main game loop update.
+	/// </summary>
+	void TitleScene::Update() override {
 		auto* renderer = Graphics::Renderer::GetInstance();
 		renderer->Render();
 
 		System::KeyInput::Update();
 		if (System::KeyInput::IsDown(VK_RETURN))
 		{
-			System::SceneManager::GetInstance()->ChangeScene<InGameScene>();
-			system("cls");
+			try {
+				System::SceneManager::GetInstance()->ChangeScene<InGameScene>();
+			} catch (...) {
+				// Graceful fallback on scene transition error
+				renderer->ClearConsole();
+				renderer->AddText("Error transitioning to game scene");
+				renderer->Render();
+			}
 			return;
 		}
 	}
-	void TitleScene::Finalize() {}
+
+	/// <summary>
+	/// Cleanup before shutdown.
+	/// </summary>
+	void TitleScene::Finalize() override {}
 }

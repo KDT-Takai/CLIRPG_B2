@@ -1,42 +1,42 @@
 #pragma once
-#include"System/Singleton/Singleton.hpp"
+#include"System/Scene/TitleScene.hpp"
 
-
-namespace System
-{
+/// <summary>
+/// Main game loop controller.
+/// </summary>
+namespace System {
 	class GameManager : public Singleton<GameManager>
 	{
 		GENERATE_SINGLETON_BODY(GameManager);
 
 		/// <summary>
-		/// 更新処理
+		/// Main game loop update.
 		/// </summary>
 		void Update();
 
 		/// <summary>
-		/// 描画
+		/// Render frame (placeholder for future graphics).
 		/// </summary>
 		void Render();
 	public:
 		/// <summary>
-		/// 初期化
+		/// Initialize the game manager.
 		/// </summary>
-		/// <returns>true:成功</returns>
+		/// <returns>true: Initialization successful</returns>
 		bool Initilaize();
 
 		/// <summary>
-		/// メインループ
+		/// Run the main game loop.
 		/// </summary>
 		void Run();
 
 		/// <summary>
-		/// 終了処理
+		/// Cleanup and shutdown.
 		/// </summary>
-		/// <returns>true:成功</returns>
+		/// <returns>true: Shutdown successful</returns>
 		bool Finalize();
 
 	private:
 		bool mIsRunning = true;
 	};
 }
-

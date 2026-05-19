@@ -1,18 +1,17 @@
-#include "GameManager.hpp"
-#include "../Scene/SceneManager.hpp"
-#include "../Scene/TitleScene.hpp"
+#include"System/GameManager.hpp"
+#include"../Scene/SceneManager.hpp"
 
 /// <summary>
-/// 更新処理
+/// Main game loop update.
 /// </summary>
 void System::GameManager::Update()
 {
-	// シーンマネージャーの更新
+	// Update scene manager and current scene
 	System::SceneManager::GetInstance()->Update();
 }
 
 /// <summary>
-/// 描画
+/// Render frame (placeholder for future graphics).
 /// </summary>
 void System::GameManager::Render()
 {
@@ -20,34 +19,49 @@ void System::GameManager::Render()
 }
 
 /// <summary>
-/// 初期化
+/// Initialize the game manager.
 /// </summary>
-/// <returns>true:成功</returns>
+/// <returns>true: Initialization successful</returns>
 bool System::GameManager::Initilaize()
 {
-	System::SceneManager::Create();
-	System::SceneManager::GetInstance()->SetStartScene<System::TitleScene>();
-	return true;
+	try {
+		System::SceneManager::Create();
+		System::SceneManager::GetInstance()->SetStartScene<System::TitleScene>();
+		return true;
+	} catch (...) {
+		// Graceful fallback on initialization error
+		return false;
+	}
 }
 
 /// <summary>
-/// メインループ
+/// Run the main game loop.
 /// </summary>
 void System::GameManager::Run()
 {
 	while (mIsRunning == true)
 	{
-		this->Update();
-		this->Render();
+		try {
+			this->Update();
+			this->Render();
+		} catch (...) {
+			// Prevent infinite loop on update/render error
+			mIsRunning = false;
+		}
 	}
 }
 
 /// <summary>
-/// 終了処理
+/// Cleanup and shutdown.
 /// </summary>
-/// <returns>true:成功</returns>
+/// <returns>true: Shutdown successful</returns>
 bool System::GameManager::Finalize()
 {
-	System::SceneManager::Release();
-	return true;
+	try {
+		System::SceneManager::Release();
+		return true;
+	} catch (...) {
+		// Graceful fallback on cleanup error
+		return false;
+	}
 }
