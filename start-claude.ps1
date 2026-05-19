@@ -1,0 +1,12 @@
+$env:ANTHROPIC_AUTH_TOKEN = "lmstudio"
+$env:ANTHROPIC_BASE_URL = "http://localhost:1234"
+$env:ANTHROPIC_DEFAULT_HAIKU_MODEL = "qwen/qwen3-4b-thinking-2507"
+$env:ANTHROPIC_DEFAULT_OPUS_MODEL = "qwen/qwen3-4b-thinking-2507"
+$env:ANTHROPIC_DEFAULT_SONNET_MODEL = "qwen/qwen3-4b-thinking-2507"
+$env:CLAUDE_CODE_SUBAGENT_MODEL = "qwen/qwen3-4b-thinking-2507"
+$env:CLAUDE_CODE_ATTRIBUTION_HEADER = "0"
+$env:CLAUDE_CODE_ENTRYPOINT = "cli"
+$env:CLAUDE_CODE_EXECPATH = "C:\Program Files\nodejs\node.exe"
+$env:CLAUDECODE = "1"
+
+bunx @anthropic-ai/claude-code@latest --chrome
