@@ -5,35 +5,35 @@
 namespace Charactors
 {
 
-	/// <summary>
-	/// ƒvƒŒƒCƒ„[¶¬ƒƒ\ƒbƒh
-	/// </summary>
-	/// <param name="Reg">ƒŒƒWƒXƒgƒŠ</param>
-	/// <param name="id">¶¬ID</param>
-	/// <returns>ƒGƒ“ƒeƒBƒeƒB</returns>
-	entt::entity PlayerFactory::CreatePlayer(entt::registry& Reg,int id)
-	{
-		//	ƒGƒ“ƒeƒBƒeƒBIDæ“¾
-		auto entity = System::EntityManager::GetInstance()->CreateLocalEntity();
-		
-		//	ƒXƒe[ƒ^ƒXæ“¾
-		std::string name;
-		Charactors::Status status;
+    /// <summary>
+    /// ãƒ—ãƒ¬ã‚¤ãƒ¤ãƒ¼ã‚¨ãƒ³ãƒ†ã‚£ãƒ†ã‚£ã®ä½œæˆ
+    /// </summary>
+    /// <param name="Reg">ç™»éŒ²ç®¡ç†</param>
+    /// <param name="id">ãƒ—ãƒ¬ã‚¤ãƒ¤ãƒ¼ ID</param>
+    /// <returns>ç”Ÿæˆã•ã‚ŒãŸã‚¨ãƒ³ãƒ†ã‚£ãƒ†ã‚£ ID</returns>
+    entt::entity PlayerFactory::CreatePlayer(entt::registry& Reg, int id)
+    {
+        // ã‚¨ãƒ³ãƒ†ã‚£ãƒ†ã‚£ ID å–å¾—
+        auto entity = System::EntityManager::GetInstance()->CreateLocalEntity();
 
-		// ƒf[ƒ^ƒx[ƒX‚©‚çæ“¾
-		auto data = PlayerDataTable::GetPlayerData(id);
+        // ã‚¹ãƒ†ãƒ¼ã‚¿ã‚¹å®šç¾©ã‚’å–å¾—
+        std::string name;
+        Charactors::Status status;
 
-		//	–¼‘Oİ’è
-		name = data->name;
-		//	ƒXƒe[ƒ^ƒXİ’è
-		status = data->status;
+        // ãƒ‡ãƒ¼ã‚¿ãƒ†ãƒ¼ãƒ–ãƒ«ã‹ã‚‰èª­ã¿å–ã‚Š
+        auto data = PlayerDataTable::GetPlayerData(id);
 
-		//	ƒRƒ“ƒ|[ƒlƒ“ƒgƒAƒ^ƒbƒ`
-		Reg.emplace<Component::CharactorStatusComp>(entity, name, status);
-		//	ƒ^ƒO‚Ì•t—^
-		Reg.emplace<Component::PlayerTag>(entity);
+        // åå‰ã‚’ã‚³ãƒ”ãƒ¼
+        name = data->name;
+        // ã‚¹ãƒ†ãƒ¼ã‚¿ã‚¹ã‚’ã‚³ãƒ”ãƒ¼
+        status = data->status;
 
-		return entity;
-	}
+        // ã‚³ãƒ³ãƒãƒ¼ãƒãƒ³ãƒˆã®è¿½åŠ 
+        Reg.emplace<Component::CharactorStatusComp>(entity, name, status);
+        // ã‚¿ã‚°ã®è¿½åŠ 
+        Reg.emplace<Component::PlayerTag>(entity);
+
+        return entity;
+    }
 
 }

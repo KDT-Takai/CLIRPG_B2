@@ -2,22 +2,38 @@
 #include <string>
 
 namespace System {
-	class IScene
-	{
-	public:
 
-		virtual ~IScene() = default;
+/// <summary>
+/// Scene interface for all game scenes.
+/// </summary>
+class IScene
+{
+public:
+	virtual ~IScene() = default;
 
-		// ���̃V�[���ɓ������u�ԁi�^�C�g����ʕ\���A�X�e�[�^�X���������j
-		virtual void Initialize() {}
+	/// <summary>
+	/// Initialize the scene.
+	/// Called when the scene is first created or reactivated.
+	/// </summary>
+	virtual void Initialize() {}
 
-		//�@���[�v���ɌĂ΂��i���͑҂��A�R�}���h�������j
-		virtual void Update() = 0;
+	/// <summary>
+	/// Update the scene logic.
+	/// Called every frame during game loop.
+	/// </summary>
+	virtual void Update() = 0;
 
-		//���̃V�[���𔲂���u�ԁi��n���A���ʕ\���A�t���O���Z�b�g���j
-		virtual void Finalize() {}
+	/// <summary>
+	/// Finalize and cleanup the scene.
+	/// Called when the scene is destroyed or deactivated.
+	/// </summary>
+	virtual void Finalize() {}
 
-		//�@�f�o�b�O�p
-		virtual std::string GetName() const = 0;
-	};
-}
+	/// <summary>
+	/// Get the name of this scene.
+	/// </summary>
+	/// <returns>The scene name.</returns>
+	virtual std::string GetName() const = 0;
+};
+
+} // namespace System

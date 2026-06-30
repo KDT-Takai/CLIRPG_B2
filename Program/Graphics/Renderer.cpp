@@ -1,54 +1,66 @@
-#include"System/Renderer.hpp"
+#include "Renderer.hpp"
 #include <iostream>
-#include <atomic>
 
-/// <summary>
-/// Console initialization.
-/// </summary>
-void Graphics::Renderer::OnCreate() {
-	mIsDirty = false;
+namespace Graphics {
+
+// コンソール描画マネージャー
+class ConsoleManager {
+public:
+    static ConsoleManager& GetInstance() {
+        static ConsoleManager instance;
+        return instance;
+    }
+
+    void ClearConsole() {
+        std::cout << "\033[2J\033[H" << std::flush;
+    }
+
+    void AddText(const std::string& text) {
+        mLines.push_back(text);
+    }
+
+    void Render() {
+        // 画面クリア
+        ClearConsole();
+
+        // テキスト描画（上から順に）
+        for (const auto& line : mLines) {
+            std::cout << line << std::endl;
+        }
+
+        // リセット
+        mLines.clear();
+    }
+
+private:
+    ConsoleManager() = default;
+    ~ConsoleManager() = default;
+    ConsoleManager(const ConsoleManager&) = delete;
+    ConsoleManager& operator=(const ConsoleManager&) = delete;
+
+    std::vector<std::string> mLines;
+};
+
+Renderer& Renderer::GetInstance() {
+    static Renderer instance;
+    return instance;
 }
 
-/// <summary>
-/// Add text to output buffer.
-/// </summary>
-void Graphics::Renderer::AddText(const std::string& text) {
-	mText.push_back(text);
-	mIsDirty = true;
+void Renderer::Initialize() {
+    // 初期化処理（stub）
 }
 
-/// <summary>
-/// Clear all text from buffer.
-/// </summary>
-void Graphics::Renderer::ClearText() {
-	mText.clear();
-	mIsDirty = true;
+void Renderer::Render(const std::string& text) {
+    ConsoleManager::GetInstance().AddText(text);
+    ConsoleManager::GetInstance().Render();
 }
 
-/// <summary>
-/// Clear console and render current buffer.
-/// Uses atomic operations for thread-safe rendering.
-/// </summary>
-void Graphics::Renderer::ClearConsole() {
-	// Atomically set dirty flag before clearing to prevent race conditions
-	mIsDirty.store(true, std::memory_order_relaxed);
-
-	// Clear console output
-	system("cls");
-	Render();
+void Renderer::ClearConsole() {
+    ConsoleManager::GetInstance().ClearConsole();
 }
 
-/// <summary>
-/// Render buffered output to console.
-/// Uses atomic operations for thread-safe rendering.
-/// </summary>
-void Graphics::Renderer::Render() {
-	if (mIsDirty.load(std::memory_order_acquire))
-	{
-		for (const auto& text : mText)
-		{
-			std::cout << text << std::endl;
-		}
-		mIsDirty.store(false, std::memory_order_release);
-	}
+void Renderer::AddText(const std::string& text) {
+    ConsoleManager::GetInstance().AddText(text);
 }
+
+} // namespace Graphics

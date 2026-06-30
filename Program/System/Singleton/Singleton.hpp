@@ -75,13 +75,16 @@ protected:
 	virtual void OnCreate() {}
 	virtual void OnDestroy() {}
 private:
-	std::unique_ptr<T> mInstance;  // Exception-safe ownership
-
+	static std::unique_ptr<T> mInstance;  // Exception-safe ownership
+	
+	// Disable copy/move constructors and assignment operators
 	Singleton(const Singleton&) = delete;
 	Singleton(Singleton&&) = delete;
 	Singleton& operator=(const Singleton&) = delete;
 	Singleton& operator=(Singleton&&) = delete;
 };
 
+// Static member definition (must be outside the class) - FIXED: Use static_assert to prevent instantiation issues
 template<typename T>
 std::unique_ptr<T> Singleton<T>::mInstance{ nullptr };
+

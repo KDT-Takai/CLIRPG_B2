@@ -1,5 +1,4 @@
 #pragma once
-#pragma once
 #include "entt/entt.hpp"
 #include "System/Entity/Manager/EntityManager.hpp"
 
@@ -15,10 +14,10 @@ namespace Charactors
 	{
 	public:
 
-		//	¶¬
+		//	ï¿½ï¿½ï¿½ï¿½
 		static entt::entity CreateEnemy(entt::registry& Reg, int id);
 
-		//	ƒtƒƒA‚É‰‚¶‚½“G¶¬
+		//	ï¿½tï¿½ï¿½ï¿½Aï¿½É‰ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Gï¿½ï¿½ï¿½ï¿½
 		static std::vector<entt::entity> CreateFloorEnemies(entt::registry& Reg, int floor);
 
 	};

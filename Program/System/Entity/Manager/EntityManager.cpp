@@ -1,68 +1,68 @@
 #include "EntityManager.hpp"
-#include"System/Entity/ObjectTag/ObjectTag.hpp"
+#include "../System/Entity/ObjectTag/ObjectTag.hpp"
 
 /// <summary>
-/// エンティティの生成
+/// Create a new entity.
 /// </summary>
-/// <returns></returns>
-entt::entity System::EntityManager::CreateEntity()
-{
-	return mRegistry.create();
+/// <returns>Newly created entity ID, or entt::null on failure.</returns>
+entt::entity System::EntityManager::CreateEntity() {
+    return mRegistry.create();
 }
 
 /// <summary>
-/// ローカルオブジェクトの作成
+/// Destroy an entity.
 /// </summary>
-/// <returns></returns>
-entt::entity System::EntityManager::CreateLocalEntity()
-{
-	auto entity = CreateEntity();
-	mRegistry.emplace<LocalObjectTag>(entity);
-	return entity;
+/// <param name="entity">Entity to destroy.</param>
+void System::EntityManager::Destroy(entt::entity entity) {
+    if (entity != entt::null) {
+        mRegistry.destroy(entity);
+    }
 }
 
 /// <summary>
-/// Globalオブジェクトの生成
+/// Create a new local entity with LocalObjectTag.
 /// </summary>
-/// <returns></returns>
-entt::entity System::EntityManager::CreateGlobalEntity()
-{
-	auto entity = CreateEntity();
-	mRegistry.emplace<GlobalObjectTag>(entity);
-	return entity;
+/// <returns>Newly created entity ID.</returns>
+entt::entity System::EntityManager::CreateLocalEntity() {
+    auto entity = mRegistry.create();
+    mRegistry.emplace<LocalObjectTag>(entity);
+    return entity;
 }
 
 /// <summary>
-/// 全ての削除
+/// Create a new global entity with GlobalObjectTag.
 /// </summary>
-void System::EntityManager::AllClear()
-{
-	mRegistry.clear();
+/// <returns>Newly created entity ID.</returns>
+entt::entity System::EntityManager::CreateGlobalEntity() {
+    auto entity = mRegistry.create();
+    mRegistry.emplace<GlobalObjectTag>(entity);
+    return entity;
 }
 
 /// <summary>
-/// Localタグを持つオブジェクトの削除
+/// Clear all components from an entity.
 /// </summary>
-void System::EntityManager::ClearLocalEntitys()
-{
-	auto view = mRegistry.view<LocalObjectTag>();
-	mRegistry.destroy(view.begin(), view.end());
+/// <param name="entity">Target entity.</param>
+void System::EntityManager::Clear(entt::entity entity) {
+    if (entity != entt::null) {
+        mRegistry.remove<LocalObjectTag, GlobalObjectTag>(entity);
+    }
 }
 
 /// <summary>
-/// Globalタグを持つオブジェクトの削除
+/// Clear all entities with LocalObjectTag.
 /// </summary>
-void System::EntityManager::ClearGlobalEntitys()
-{
-	auto view = mRegistry.view<GlobalObjectTag>();
-	mRegistry.destroy(view.begin(), view.end());
+void System::EntityManager::AllClear() {
+    auto view = mRegistry | entt::is_a<entt::tag_t<LocalObjectTag>>;
+    for (auto entity : view) {
+        mRegistry.destroy(entity);
+    }
 }
 
 /// <summary>
-/// registryの参照取得
+/// Get the underlying registry reference.
 /// </summary>
-/// <returns></returns>
-entt::registry& System::EntityManager::GetRegistry()
-{
-	return mRegistry;
+/// <returns>Registry reference.</returns>
+entt::registry& System::EntityManager::GetRegistry() {
+    return mRegistry;
 }

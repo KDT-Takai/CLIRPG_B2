@@ -22,12 +22,47 @@ CLIRPG_B2_は、Visual Studioで作成したC++のコンソールRPG。
 
 ---
 
+## 技術スタック
+| - **C++20** / **Visual Studio 2022** / **Windows 10+**
+| - **Entt**: エンティティ管理ライブラリ
+| - **Google Test**: ユニットテストフレームワーク
+
+---
+
+## ドキュメント
+
+- [システム構成](design_system.md): プロジェクト構造とアーキテクチャ
+- [シーンシステム](design_scene.md): シーン管理の設計
+- [エラーハンドリング](design_error.md): Result<T, E> パターン
+- [エンティティシステム](design_entity.md): ECS アプローチ
+- [データ定義](design_data.md): キャラクターとアイテムデータ
+- [ビルドとテスト](design_build.md): ビルド構成とテスト戦略
+
 ## 環境
-- Windows 10以降
-- Visual Studio 2022
-- C++20
-- ビルド構成: Debug / Release
-- 出力: CLIRPG_B2.exe
+|- Windows 10 以降
+|- Visual Studio 2022
+|- C++20
+|- ビルド構成: Debug / Release
+|- 出力: CLIRPG_B2.exe
+
+---
+
+## ビルドコマンド
+### Debug モード
+```bash
+msbuild CLIRPG_B2.sln /p:Configuration=Debug /m:4
+
+# または build.sh を使用
+./build.sh CONFIG=Debug
+```
+
+### Release モード
+```bash
+msbuild CLIRPG_B2.sln /p:Configuration=Release /m:4
+
+# または build.sh を使用
+./build.sh CONFIG=Release
+```
 
 ---
 

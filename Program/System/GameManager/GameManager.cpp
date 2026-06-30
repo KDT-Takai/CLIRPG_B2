@@ -1,4 +1,4 @@
-#include"System/GameManager.hpp"
+#include "../System/GameManager/GameManager.hpp"
 #include"../Scene/SceneManager.hpp"
 
 /// <summary>

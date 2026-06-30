@@ -1,0 +1,73 @@
+# Doxygen Configuration for CLIRPG_B2
+
+# Project information
+PROJECT_NAME              = "CLIRPG_B2"
+PROJECT_NUMBER            = "1.0"
+OUTPUT_DIRECTORY          = "doc/html"
+BRIEF_MEMBER_DESC         = YES
+FULL_MEMBER_NAMES         = YES
+REPEAT_BRIEF              = YES
+ABBREV_BRIEF              = NO
+ALWAYS_DETAILED_SEC       = NO
+INLINE_INFO               = YES
+PERLINE                  = YES
+INHERIT_DOCS              = YES
+SEPARATE_MEMBER_PAGES     = NO
+
+# HTML output
+GENERATE_HTML             = YES
+HTML_OUTPUT               = "html"
+HTML_FILE_EXTENSION       = ".html"
+HTML_DIR_LAYOUT           = TREE
+GENERATE_DOCSET           = NO
+GENERATE_CHM              = NO
+GENERATE_CDF              = NO
+GENERATE_EPILOG          = YES
+USE_MDFILEASEFFIGURES     = YES
+
+# Per-file Doxyfile configuration
+INPUT                     = .
+FILE_PATTERNS             = *.cpp;*.hpp;*.h;*.c;*.cxx;*.hxx
+RECURSIVE                 = YES
+EXCLUDE                  = Plugin/entt/*
+EXCLUDE_SYMLINKS         = NO
+EXAMPLE_PATH              = 
+EXAMPLE_PATH_INCLUDE     = 
+IMAGE_PATH                = 
+INPUT_FILTER              = 
+FILTER_PATTERNS          = 
+FILTER_SOURCE_FILES      = NO
+
+# Source code browsing
+SOURCE_BROWSER            = YES
+INLINE_SOURCES            = YES
+STRIP_CODE_COMMENTS       = YES
+REFERENCED_BY_SOURCE     = YES
+REFERENCES               = YES
+REFERENCE_LOG             = YES
+EXTERNAL_GROUPS           = YES
+EXTERNAL_SCOPED_NAMES    = YES
+BUILTIN_STL_SUPPORT       = YES
+CPP_CLI_SUPPORT           = NO
+SPP_PREPROCESSOR_SUPPORT  = NO
+
+# Group management
+TOC_EXHIBIT_LEVELS        = 2
+GROUPS                   = 
+EXTRACT_ALL              = NO
+EXTRACT_PRIVATE          = NO
+EXTRACT_PACKAGE          = NO
+EXTRACT_STATIC           = YES
+HIDE_UNDOC_MEMBERS       = NO
+HIDE_UNDOC_TYPES         = NO
+INTERNAL_DOCS            = NO
+
+# Version control
+SHOW_USED_FILES          = YES
+FILE_VERSION_FILTER      = 
+LAYOUT                   = "default"
+MAX_DOT_GRAPH_HEIGHT     = 500
+MAX_DOT_GRAPH_WIDTH      = 1200
+DOT_IMAGE_TYPE           = "svg"
+DOT_PATH                 = ""
+DOTFILE                  = ""

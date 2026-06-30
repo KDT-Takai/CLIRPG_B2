@@ -10,3 +10,16 @@
 /.vs/CLI2-B/v17/DocumentLayout.json
 /x64/Debug/CLIRPG_B2.exe
 /x64/Debug/CLIRPG_B2.pdb
+# ビルド出力
+x64/Debug/*.exe
+x64/Debug/*.pdb
+x64/Release/*.exe
+x64/Release/*.pdb
+
+# テスト出力
+_test_results/
+TestResults/
+
+# デバッグログ
+*.log
+Debug.log

@@ -17,7 +17,9 @@ jobs:
         
       - name: Build Debug
         run: |
+          $version = git describe --tags --always 2>$null; if ($?) { $version } else { "dev" }
           msbuild CLIRPG_B2.sln \
+            /p:Version=$version \
             /p:Configuration=Debug \
             /m:4 \
             /verbosity:minimal
@@ -29,7 +31,7 @@ jobs:
           } else {
             Write-Host "No test directory found, skipping..."
           }
-
+      
       - name: Build Release
         run: |
           msbuild CLIRPG_B2.sln \

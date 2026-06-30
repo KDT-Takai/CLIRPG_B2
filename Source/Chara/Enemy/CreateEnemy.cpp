@@ -5,59 +5,59 @@
 namespace Charactors
 {
 
-	/// <summary>
-	/// ƒvƒŒƒCƒ„[¶¬ƒƒ\ƒbƒh
-	/// </summary>
-	/// <param name="Reg">ƒŒƒWƒXƒgƒŠ</param>
-	/// <param name="id">¶¬ID</param>
-	/// <returns>ƒGƒ“ƒeƒBƒeƒB</returns>
-	inline entt::entity EnemyFactory::CreateEnemy(entt::registry& Reg, int id)
-	{
-		//	ƒGƒ“ƒeƒBƒeƒBIDæ“¾
-		auto entity = System::EntityManager::GetInstance()->CreateLocalEntity();
+    /// <summary>
+    /// æ•µã‚¨ãƒ³ãƒ†ã‚£ãƒ†ã‚£ã®ä½œæˆ
+    /// </summary>
+    /// <param name="Reg">ç™»éŒ²ç®¡ç†</param>
+    /// <param name="id">æ•µ ID</param>
+    /// <returns>ç”Ÿæˆã•ã‚ŒãŸã‚¨ãƒ³ãƒ†ã‚£ãƒ†ã‚£ ID</returns>
+    inline entt::entity EnemyFactory::CreateEnemy(entt::registry& Reg, int id)
+    {
+        // ã‚¨ãƒ³ãƒ†ã‚£ãƒ†ã‚£ ID å–å¾—
+        auto entity = System::EntityManager::GetInstance()->CreateLocalEntity();
 
-		//	ƒXƒe[ƒ^ƒXæ“¾
-		std::string name;
-		Charactors::Status status;
+        // ã‚¹ãƒ†ãƒ¼ã‚¿ã‚¹å®šç¾©ã‚’å–å¾—
+        std::string name;
+        Charactors::Status status;
 
-		// ƒf[ƒ^ƒx[ƒX‚©‚çæ“¾
-		auto data = EnemyDataTable::GetEnemyData(id);
+        // ãƒ‡ãƒ¼ã‚¿ãƒ†ãƒ¼ãƒ–ãƒ«ã‹ã‚‰èª­ã¿å–ã‚Š
+        auto data = EnemyDataTable::GetEnemyData(id);
 
-		//	–¼‘Oİ’è
-		name = data->name;
-		//	ƒXƒe[ƒ^ƒXİ’è
-		status = data->status;
+        // åå‰ã‚’ã‚³ãƒ”ãƒ¼
+        name = data->name;
+        // ã‚¹ãƒ†ãƒ¼ã‚¿ã‚¹ã‚’ã‚³ãƒ”ãƒ¼
+        status = data->status;
 
-		//	ƒRƒ“ƒ|[ƒlƒ“ƒgƒAƒ^ƒbƒ`
-		Reg.emplace<Component::CharactorStatusComp>(entity, name, status);
-		//	ƒ^ƒO‚Ì•t—^
-		Reg.emplace<Component::EnemyTag>(entity);
+        // ã‚³ãƒ³ãƒãƒ¼ãƒãƒ³ãƒˆã®è¿½åŠ 
+        Reg.emplace<Component::CharactorStatusComp>(entity, name, status);
+        // ã‚¿ã‚°ã®è¿½åŠ 
+        Reg.emplace<Component::EnemyTag>(entity);
 
-		return entity;
-	}
+        return entity;
+    }
 
-	// ŠK‘w‚É‰‚¶‚½“G‚Ì¶¬ˆ—
-	//	ƒGƒ“ƒeƒBƒeƒB‚ğ‚Á‚½vector‚ğ•Ô‚·
-	std::vector<entt::entity> EnemyFactory::CreateFloorEnemies(entt::registry& Reg, int floor)
-	{
-		//	ƒtƒƒA‚É‰‚¶‚½“GIDƒŠƒXƒgæ“¾
-		auto enemyIDList = EnemyDataTable::GetFloorEnemyTable(floor);
+    // å„éšå±¤ã«å‡ºç¾ã™ã‚‹æ•µã‚¨ãƒ³ãƒ†ã‚£ãƒ†ã‚£ã®ãƒªã‚¹ãƒˆã‚’ä½œæˆ
+    // ã‚¨ãƒ³ãƒ†ã‚£ãƒ†ã‚£ ID ã®ãƒ™ã‚¯ãƒˆãƒ«ã‹ã‚‰ç”Ÿæˆ
+    std::vector<entt::entity> EnemyFactory::CreateFloorEnemies(entt::registry& Reg, int floor)
+    {
+        // å„éšå±¤ã«å‡ºç¾ã™ã‚‹æ•µ ID ã‚’å–å¾—
+        auto enemyIDList = EnemyDataTable::GetFloorEnemyTable(floor);
 
-		if (enemyIDList == nullptr)
-		{
-			return std::vector<entt::entity>();
-		}
+        if (enemyIDList == nullptr)
+        {
+            return std::vector<entt::entity>();
+        }
 
-		std::vector<entt::entity> enemyEntityList;
+        std::vector<entt::entity> enemyEntityList;
 
-		//	“G¶¬
-		for (auto id : *enemyIDList)
-		{
-			auto enemyEntity = CreateEnemy(Reg, id);
-			enemyEntityList.push_back(enemyEntity);
-		}
-		return enemyEntityList;
+        // å„æ•µã‚’ç”Ÿæˆ
+        for (auto id : *enemyIDList)
+        {
+            auto enemyEntity = CreateEnemy(Reg, id);
+            enemyEntityList.push_back(enemyEntity);
+        }
+        return enemyEntityList;
 
-	}
+    }
 
 }

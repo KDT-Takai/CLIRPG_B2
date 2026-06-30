@@ -1,0 +1,52 @@
+{
+    "Player": {
+        "name": "Hero",
+        "level": 1,
+        "hp": 100,
+        "maxHp": 100,
+        "attack": 15,
+        "defense": 5,
+        "magicPower": 10,
+        "speed": 8,
+        "items": ["Potion", "Sword"]
+    },
+    "Enemy": {
+        "name": "Slime",
+        "level": 1,
+        "hp": 30,
+        "maxHp": 30,
+        "attack": 8,
+        "defense": 2,
+        "magicPower": 5,
+        "speed": 6,
+        "xpReward": 20,
+        "goldReward": 10
+    },
+    "EnemyLevel2": {
+        "name": "Goblin",
+        "level": 3,
+        "hp": 80,
+        "maxHp": 80,
+        "attack": 15,
+        "defense": 5,
+        "magicPower": 8,
+        "speed": 7,
+        "xpReward": 60,
+        "goldReward": 30
+    },
+    "ItemPotion": {
+        "name": "Health Potion",
+        "type": "consumable",
+        "effect": "heal",
+        "value": 25,
+        "description": "Restores 25 HP"
+    },
+    "ItemSword": {
+        "name": "Iron Sword",
+        "type": "weapon",
+        "attackBonus": 10,
+        "defenseBonus": 2,
+        "value": 100,
+        "description": "A basic iron sword"
+    }
+}
