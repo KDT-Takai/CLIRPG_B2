@@ -1,13 +1,13 @@
 #include "System/Scene/ClearScene.hpp"
-#include "System//KeyInput/KeyInput.h"
+#include "System/KeyInput/KeyInput.h"
 #include "Graphics/Renderer.hpp"
 
 namespace System {
 
-std::string ClearScene::GetName() const {return "ClearScene";}
+std::string ClearScene::GetName() const { return "ClearScene"; }
 
 void ClearScene::Initialize() {
-    Graphics::Renderer renderer = Graphics::Renderer::GetInstance();
+    auto& renderer = Graphics::Renderer::GetInstance();
     renderer.ClearConsole();
     renderer.AddText(GetName());
 }

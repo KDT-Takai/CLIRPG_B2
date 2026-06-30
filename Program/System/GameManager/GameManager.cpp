@@ -1,67 +1,59 @@
-#include "../System/GameManager/GameManager.hpp"
-#include"../Scene/SceneManager.hpp"
+#include "GameManager.hpp"
+#include "../Scene/SceneManager.hpp"
+#include "../Scene/TitleScene.hpp"
 
-/// <summary>
-/// Main game loop update.
-/// </summary>
-void System::GameManager::Update()
-{
-	// Update scene manager and current scene
-	System::SceneManager::GetInstance()->Update();
+namespace System {
+
+GameManager& GameManager::GetInstance() {
+    static GameManager instance;
+    return instance;
 }
 
-/// <summary>
-/// Render frame (placeholder for future graphics).
-/// </summary>
-void System::GameManager::Render()
+void GameManager::Update()
 {
-
+    SceneManager::GetInstance()->Update();
 }
 
-/// <summary>
-/// Initialize the game manager.
-/// </summary>
-/// <returns>true: Initialization successful</returns>
-bool System::GameManager::Initilaize()
+void GameManager::Render()
 {
-	try {
-		System::SceneManager::Create();
-		System::SceneManager::GetInstance()->SetStartScene<System::TitleScene>();
-		return true;
-	} catch (...) {
-		// Graceful fallback on initialization error
-		return false;
-	}
 }
 
-/// <summary>
-/// Run the main game loop.
-/// </summary>
-void System::GameManager::Run()
+void GameManager::Initialize()
 {
-	while (mIsRunning == true)
-	{
-		try {
-			this->Update();
-			this->Render();
-		} catch (...) {
-			// Prevent infinite loop on update/render error
-			mIsRunning = false;
-		}
-	}
 }
 
-/// <summary>
-/// Cleanup and shutdown.
-/// </summary>
-/// <returns>true: Shutdown successful</returns>
-bool System::GameManager::Finalize()
+bool GameManager::Initilaize()
 {
-	try {
-		System::SceneManager::Release();
-		return true;
-	} catch (...) {
-		// Graceful fallback on cleanup error
-		return false;
-	}
+    try {
+        SceneManager::Create();
+        SceneManager::GetInstance()->SetStartScene<TitleScene>();
+        return true;
+    } catch (...) {
+        return false;
+    }
 }
+
+void GameManager::Run()
+{
+    while (mIsRunning == true)
+    {
+        try {
+            this->Update();
+            this->Render();
+        } catch (...) {
+            mIsRunning = false;
+        }
+    }
+}
+
+bool GameManager::Finalize()
+{
+    try {
+        SceneManager::Release();
+        return true;
+    } catch (...) {
+        return false;
+    }
+}
+
+} // namespace System

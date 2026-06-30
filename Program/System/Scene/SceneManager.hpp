@@ -15,7 +15,9 @@ namespace System {
 /// </summary>
 class SceneManager : public Singleton<SceneManager> {
 
-    GENERATE_SINGLETON_BODY(SceneManager)
+    GENERATE_SINGLETON_BODY(SceneManager);
+
+    friend struct std::default_delete<SceneManager>;
 
 public:
 

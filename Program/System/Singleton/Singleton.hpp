@@ -8,12 +8,13 @@
 
 #define GENERATE_SINGLETON_BODY(Class)\
 friend class Singleton<Class>;\
+protected:\
 Class()noexcept = default;\
 virtual ~Class()noexcept = default;\
 Class(const Class&) = delete;\
 Class(Class&&) = delete;\
 Class& operator=(const Class&) = delete;\
-Class& operator=(Class&&) = delete;
+Class& operator=(Class&&) = delete;\
 
 /// <summary>
 /// Singleton pattern implementation with exception safety.
@@ -31,7 +32,7 @@ public:
 	{
 		if (mInstance == nullptr)
 		{
-			mInstance = std::make_unique<T>();
+			mInstance = std::unique_ptr<T>(new T());
 			mInstance->OnCreate();
 			return true;
 		}
@@ -82,9 +83,11 @@ private:
 	Singleton(Singleton&&) = delete;
 	Singleton& operator=(const Singleton&) = delete;
 	Singleton& operator=(Singleton&&) = delete;
+
+	// Allow unique_ptr to access destructor of T
+	friend struct std::default_delete<T>;
 };
 
-// Static member definition (must be outside the class) - FIXED: Use static_assert to prevent instantiation issues
+// Static member definition (must be outside the class)
 template<typename T>
 std::unique_ptr<T> Singleton<T>::mInstance{ nullptr };
-

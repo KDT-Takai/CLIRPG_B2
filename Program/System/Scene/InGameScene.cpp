@@ -1,4 +1,4 @@
-﻿#include "InGameScene.hpp"
+#include "InGameScene.hpp"
 #include "System/Entity/Manager/EntityManager.hpp"
 #include "System/SystemManager/SystemManager.hpp"
 #include "Hierarchy/System/HierarchySystem.hpp"
@@ -22,12 +22,12 @@ namespace System {
 	std::string InGameScene::GetName() const { return "InGameScene"; }
 
 	void InGameScene::Initialize() {
-		auto* renderer = Graphics::Renderer::GetInstance();
+		auto& renderer = Graphics::Renderer::GetInstance();
 
-		renderer->ClearText();
-		renderer->AddText("InGameScene Start");
-		renderer->Render();
-		renderer->ClearText();
+		renderer.ClearText();
+		renderer.AddText("InGameScene Start");
+		renderer.Render();
+		renderer.ClearText();
 
 		System::EntityManager::GetInstance()->Create();
 		auto& reg = System::EntityManager::GetInstance()->GetRegistry();
@@ -54,7 +54,7 @@ namespace System {
 
 	void InGameScene::Update()
 	{
-		auto* renderer = Graphics::Renderer::GetInstance();
+		auto& renderer = Graphics::Renderer::GetInstance();
 		System::KeyInput::Update();
 		switch (mState)
 		{
@@ -65,11 +65,11 @@ namespace System {
 			EnemyTurn();
 			break;
 		case GameState::BattleResult:
-			//renderer->AddText("Battle Clear!");
-			//renderer->AddText("[Enter] Next Floor");
+			//renderer.AddText("Battle Clear!");
+			//renderer.AddText("[Enter] Next Floor");
 			if (System::KeyInput::IsDown(VK_RETURN)) {
-				renderer->ClearText();
-				renderer->ClearConsole();
+				renderer.ClearText();
+				renderer.ClearConsole();
 				auto& reg = System::EntityManager::GetInstance()->GetRegistry();
 				auto& hierarchy = reg.get<Component::HierarchyComponent>(mGameMngEntity);
 
@@ -82,15 +82,15 @@ namespace System {
 		break;
 		case GameState::GameOver:
 			if (!mGameOverDrawn) {
-				renderer->ClearText();
-				renderer->AddText("Game Over");
-				renderer->Render();
+				renderer.ClearText();
+				renderer.AddText("Game Over");
+				renderer.Render();
 				mGameOverDrawn = true;
 			}
 			break;
 		}
 
-		//renderer->Render();
+		//renderer.Render();
 	}
 
 	void InGameScene::SpawnEnemy() {
@@ -106,14 +106,14 @@ namespace System {
 		int floorIndex = mPrevFloor - 1;
 		mEnemyParty = Charactors::EnemyFactory::CreateFloorEnemies(reg, floorIndex);
 
-		Graphics::Renderer::GetInstance()->AddText("Enemies appeared!");
-		Graphics::Renderer::GetInstance()->Render();
-		Graphics::Renderer::GetInstance()->ClearText();
+		Graphics::Renderer::GetInstance().AddText("Enemies appeared!");
+		Graphics::Renderer::GetInstance().Render();
+		Graphics::Renderer::GetInstance().ClearText();
 	}
 
 	//	プレイヤーターン
 	void InGameScene::PlayerTurn() {
-		auto* renderer = Graphics::Renderer::GetInstance();
+		auto& renderer = Graphics::Renderer::GetInstance();
 		auto& reg = System::EntityManager::GetInstance()->GetRegistry();
 
 		// 先頭プレイヤー
@@ -146,30 +146,30 @@ namespace System {
 
 		// 画面描画
 		if (mNeedRedraw) {
-			renderer->ClearText();
-			renderer->AddText("Floor: " + std::to_string(mPrevFloor));
+			renderer.ClearText();
+			renderer.AddText("Floor: " + std::to_string(mPrevFloor));
 
-			renderer->AddText("--- Enemies ---");
+			renderer.AddText("--- Enemies ---");
 			for (auto e : mEnemyParty) {
 				auto& st = reg.get<Component::CharactorStatusComp>(e);
-				renderer->AddText(
+				renderer.AddText(
 					st.Name + " (HP:" + std::to_string(st.hp) + ")"
 				);
 			}
 
-			renderer->AddText("--- Players ---");
+			renderer.AddText("--- Players ---");
 			for (auto p : mPlayerParty) {
 				auto& st = reg.get<Component::CharactorStatusComp>(p);
-				renderer->AddText(
+				renderer.AddText(
 					st.Name + " (HP:" + std::to_string(st.hp) +
 					" MP:" + std::to_string(st.mp) + ")"
 				);
 			}
 
-			renderer->AddText("");
-			renderer->AddText("[1] Attack  [2] Magic(5MP)  [3] Item");
-			renderer->Render();
-			renderer->ClearText();
+			renderer.AddText("");
+			renderer.AddText("[1] Attack  [2] Magic(5MP)  [3] Item");
+			renderer.Render();
+			renderer.ClearText();
 
 			mNeedRedraw = false;
 		}
@@ -188,7 +188,7 @@ namespace System {
 				if (damage < 1) { damage = 1; }
 
 				eStatus.Damage(damage);
-				renderer->AddText("Atk! Dealt " + std::to_string(damage) + " dmg.");
+				renderer.AddText("Atk! Dealt " + std::to_string(damage) + " dmg.");
 				isActionTaken = true;
 			}
 			//	魔法の使用
@@ -197,11 +197,11 @@ namespace System {
 					pStatus.mp -= 5;
 					int damage = pStatus.FinalStasuts.MAG;
 					eStatus.Damage(damage);
-					renderer->AddText("Magic! Dealt " + std::to_string(damage) + " dmg.");
+					renderer.AddText("Magic! Dealt " + std::to_string(damage) + " dmg.");
 					isActionTaken = true;
 				}
 				else {
-					renderer->AddText("Not enough MP!");
+					renderer.AddText("Not enough MP!");
 				}
 			}
 			//	アイテムの使用
@@ -219,15 +219,15 @@ namespace System {
 
 						//	アイテムの案内テキスト表示
 						std::string text = { "[" + std::to_string(i + 1) + "]" + name };
-						renderer->AddText(text);
+						renderer.AddText(text);
 						
 					}
 
-				//	renderer->AddText()
+				//	renderer.AddText()
 					mSelect = SelectState::ItemSelect;
 				}
 				else {
-					renderer->AddText("No items!");
+					renderer.AddText("No items!");
 				}
 			}
 
@@ -247,12 +247,12 @@ namespace System {
 					if (mItems[i].type == ItemType::HealHP) {
 //						pStatus.hp += mItems[i].value;
 						pStatus.HpHeal(mItems[i].value);
-						renderer->AddText(mItems[i].name + " used! +" + std::to_string(mItems[i].value) + " HP");
+						renderer.AddText(mItems[i].name + " used! +" + std::to_string(mItems[i].value) + " HP");
 					}
 					else if (mItems[i].type == ItemType::HealMP) {
 //						pStatus.mp += mItems[i].value;
 						pStatus.MpHeal(mItems[i].value);
-						renderer->AddText(mItems[i].name + " used! +" + std::to_string(mItems[i].value) + " MP");
+						renderer.AddText(mItems[i].name + " used! +" + std::to_string(mItems[i].value) + " MP");
 					}
 
 					//	使用したアイテムを削除
@@ -269,7 +269,7 @@ namespace System {
 
 		}
 
-		renderer->Render();
+		renderer.Render();
 
 		// 行動完了後
 		if (isActionTaken) {
@@ -284,11 +284,11 @@ namespace System {
 
 			if (allDead) {
 				mState = GameState::BattleResult; // 勝利
-				renderer->ClearConsole();
-				renderer->ClearText();
-				renderer->AddText("Battle Clear!");
-				renderer->AddText("[Enter] Next Floor");
-				renderer->Render();
+				renderer.ClearConsole();
+				renderer.ClearText();
+				renderer.AddText("Battle Clear!");
+				renderer.AddText("[Enter] Next Floor");
+				renderer.Render();
 				mNeedRedraw = true;
 			}
 			else {
@@ -306,14 +306,14 @@ namespace System {
 	}
 
 	void InGameScene::EnemyTurn() {
-		auto* renderer = Graphics::Renderer::GetInstance();
+		auto& renderer = Graphics::Renderer::GetInstance();
 		auto& reg = System::EntityManager::GetInstance()->GetRegistry();
 
 		if (!mEnemyActed) {
-			renderer->ClearText();
+			renderer.ClearText();
 
-			renderer->AddText("");
-			renderer->AddText("Enemy Turn...");
+			renderer.AddText("");
+			renderer.AddText("Enemy Turn...");
 
 			// 全ての敵
 			for (auto enemyEntity : mEnemyParty) {
@@ -341,16 +341,16 @@ namespace System {
 				if (damage < 1) { damage = 1; }
 
 				pStatus.Damage(damage);
-				renderer->AddText(
+				renderer.AddText(
 					eStatus.Name + " attacks " +
 					pStatus.Name + "! (" +
 					std::to_string(damage) + " dmg)"
 				);
 			}
 
-			renderer->AddText("(Press Enter)");
-			renderer->AddText("");
-			renderer->Render();
+			renderer.AddText("(Press Enter)");
+			renderer.AddText("");
+			renderer.Render();
 
 			mEnemyActed = true;
 			return;

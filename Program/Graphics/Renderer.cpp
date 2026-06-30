@@ -1,45 +1,33 @@
 #include "Renderer.hpp"
-#include <iostream>
 
 namespace Graphics {
 
-// コンソール描画マネージャー
-class ConsoleManager {
-public:
-    static ConsoleManager& GetInstance() {
-        static ConsoleManager instance;
-        return instance;
+ConsoleManager& ConsoleManager::GetInstance() {
+    static ConsoleManager instance;
+    return instance;
+}
+
+void ConsoleManager::ClearConsole() {
+    std::cout << "\033[2J\033[H" << std::flush;
+}
+
+void ConsoleManager::AddText(const std::string& text) {
+    mLines.push_back(text);
+}
+
+void ConsoleManager::Render() {
+    ClearConsole();
+    for (const auto& line : mLines) {
+        std::cout << line << std::endl;
     }
+    mLines.clear();
+}
 
-    void ClearConsole() {
-        std::cout << "\033[2J\033[H" << std::flush;
-    }
+void ConsoleManager::ClearText() {
+    mLines.clear();
+}
 
-    void AddText(const std::string& text) {
-        mLines.push_back(text);
-    }
-
-    void Render() {
-        // 画面クリア
-        ClearConsole();
-
-        // テキスト描画（上から順に）
-        for (const auto& line : mLines) {
-            std::cout << line << std::endl;
-        }
-
-        // リセット
-        mLines.clear();
-    }
-
-private:
-    ConsoleManager() = default;
-    ~ConsoleManager() = default;
-    ConsoleManager(const ConsoleManager&) = delete;
-    ConsoleManager& operator=(const ConsoleManager&) = delete;
-
-    std::vector<std::string> mLines;
-};
+// --- Renderer ---
 
 Renderer& Renderer::GetInstance() {
     static Renderer instance;
@@ -47,11 +35,10 @@ Renderer& Renderer::GetInstance() {
 }
 
 void Renderer::Initialize() {
-    // 初期化処理（stub）
+    ConsoleManager::GetInstance().ClearConsole();
 }
 
-void Renderer::Render(const std::string& text) {
-    ConsoleManager::GetInstance().AddText(text);
+void Renderer::Render() {
     ConsoleManager::GetInstance().Render();
 }
 
@@ -61,6 +48,10 @@ void Renderer::ClearConsole() {
 
 void Renderer::AddText(const std::string& text) {
     ConsoleManager::GetInstance().AddText(text);
+}
+
+void Renderer::ClearText() {
+    ConsoleManager::GetInstance().ClearText();
 }
 
 } // namespace Graphics

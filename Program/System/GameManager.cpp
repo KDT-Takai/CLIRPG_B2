@@ -10,7 +10,6 @@ GameManager& GameManager::GetInstance() {
 void GameManager::Initialize() {}
 
 std::expected<void, ErrorMessage> GameManager::StartGame() {
-    // ゲーム開始処理
     return {};
 }
 
